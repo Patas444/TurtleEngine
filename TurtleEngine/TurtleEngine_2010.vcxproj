@@ -417,13 +417,19 @@
   </ItemDefinitionGroup>
   <ItemGroup />
   <ItemGroup>
+    <ClCompile Include="src\BaseApp.cpp" />
+    <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="TurtleEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TurtleEngine.fx" />
   </ItemGroup>
   <ItemGroup>
-    <CLInclude Include="resource.h" />
+    <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\Prerequisites.h" />
+    <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="include\Window.h" />
+    <CLInclude Include="Resource.h" />
     <ResourceCompile Include="TurtleEngine.rc" />
   </ItemGroup>
   <ItemGroup>
