@@ -25,33 +25,43 @@
    OutputDebugStringW( os_.str().c_str() );  \
 }
 
-#define ERROR( classObj, method, errorMSG )  \
-{                                            \
-   std::wostringstream os_;                  \
-   os_ << "ERROR : " << classObj << "::" << method << " : " << "  Error in data from params [" << errorMSG << "] \n"; \
-   OutputDebugStringW( os_.str().c_str() );  \
-   exit(1);                                  \
+#define ERROR(classObj, method, errorMSG)                     \
+{                                                             \
+    try {                                                     \
+        std::wostringstream os_;                              \
+        os_ << L"ERROR : " << classObj << L"::" << method     \
+            << L" : " << errorMSG << L"\n";                   \
+        OutputDebugStringW(os_.str().c_str());                \
+    } catch (...) {                                           \
+        OutputDebugStringW(L"Failed to log error message.\n");\
+    }                                                         \
 }
 
 // Structures
-struct
-	SimpleVertex {
-	XMFLOAT3 Pos;
-	XMFLOAT2 Tex;
+struct 
+SimpleVertex {
+  XMFLOAT3 Pos;
+  XMFLOAT2 Tex;
 };
 
-struct
-	CBNeverChanges {
-	XMMATRIX mView;
+struct 
+CBNeverChanges {
+  XMMATRIX mView;
 };
 
-struct
-	CBChangeOnResize {
-	XMMATRIX mProjection;
+struct 
+CBChangeOnResize {
+  XMMATRIX mProjection;
 };
 
-struct
-	CBChangesEveryFrame {
-	XMMATRIX mWorld;
-	XMFLOAT4 vMeshColor;
+struct 
+CBChangesEveryFrame {
+  XMMATRIX mWorld;
+  XMFLOAT4 vMeshColor;
+};
+
+enum ExtensionType {
+  DDS = 0,
+  PNG = 1,
+  JPG = 2
 };

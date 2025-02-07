@@ -418,6 +418,9 @@
   <ItemGroup />
   <ItemGroup>
     <ClCompile Include="src\BaseApp.cpp" />
+    <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\DeviceContext.cpp" />
+    <ClCompile Include="src\Swapchain.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="TurtleEngine.cpp" />
   </ItemGroup>
@@ -426,8 +429,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\BaseApp.h" />
+    <ClInclude Include="include\Device.h" />
+    <ClInclude Include="include\DeviceContext.h" />
     <ClInclude Include="include\Prerequisites.h" />
+    <ClInclude Include="include\RenderTargetView.h" />
     <ClInclude Include="include\Resource.h" />
+    <ClInclude Include="include\Swapchain.h" />
+    <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Window.h" />
     <CLInclude Include="Resource.h" />
     <ResourceCompile Include="TurtleEngine.rc" />
