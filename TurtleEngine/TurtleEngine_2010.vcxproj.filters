@@ -12,21 +12,74 @@
       <UniqueIdentifier>{2c3d4c8c-5d1a-459a-a05a-a4e4b608a44e}</UniqueIdentifier>
       <Extensions>fx;fxh;hlsl</Extensions>
     </Filter>
-    <Filter Include="scr">
-      <UniqueIdentifier>{5c6362d7-9495-48e5-9578-e54120974254}</UniqueIdentifier>
+    <Filter Include="Include">
+      <UniqueIdentifier>{65629282-bc95-4fcf-a4d5-b6b2af4d61ec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include">
-      <UniqueIdentifier>{e77d1da0-ae71-460a-9989-8a3056ebd66a}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{14439d43-0dce-4016-8b9f-4ec14336fcb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ClInclude Include="Include\BaseApp.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DepthStencilView.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Device.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DeviceContext.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Prerequisites.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RenderTargetView.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Resource.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Swapchain.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Texture.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Window.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\stb_image.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TurtleEngine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TurtleEngine.fx">
-      <Filter>Shaders</Filter>
-    </None>
+    <ClCompile Include="Source\BaseApp.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DepthStencilView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Device.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DeviceContext.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderTargetView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Swapchain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -37,5 +90,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="TurtleEngine.fx">
+      <Filter>Shaders</Filter>
+    </Text>
   </ItemGroup>
 </Project>

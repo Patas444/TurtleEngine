@@ -1,23 +1,23 @@
 #pragma once
 #include "Prerequisites.h"
 
-class
-	Window {
+class 
+Window {
 public:
 	Window() = default;
 	~Window() = default;
 
 	HRESULT
-		init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc);
-
-	void
-		update();
-
-	void
-		render();
-
-	void
-		destroy();
+	init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc);
+	
+	void 
+	update();
+	
+	void 
+	render();
+	
+	void 
+	destroy();
 
 public:
 	HWND m_hWnd = nullptr;
