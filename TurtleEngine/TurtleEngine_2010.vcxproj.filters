@@ -47,6 +47,9 @@
     <ClInclude Include="include\RenderTargetView.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\DepthStencilView.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseApp.cpp">
@@ -65,6 +68,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Swapchain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DepthStencilView.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTargetView.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

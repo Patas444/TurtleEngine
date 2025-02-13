@@ -1,21 +1,33 @@
 #pragma once
+#include "Prerequisites.h"
 
-#include <Prerequisites.h>
+// Forward Declarations
+class Device;
+class DeviceContext;
+class Texture;
+class DepthStencilView;
 
-class RenderTargetView {
+class 
+RenderTargetView {
 public:
-    RenderTargetView() = default;
-    ~RenderTargetView() = default;
+	RenderTargetView()  = default;
+	~RenderTargetView() = default;
 
-   void
-   init();
+  HRESULT
+  init(Device& device, Texture &backBuffer, DXGI_FORMAT Format);
 
-   void
-   update();
+  void 
+  update();
+  
+  void 
+  render(DeviceContext & deviceContext, 
+         DepthStencilView & depthStencilView, 
+         unsigned int numViews, 
+         const float ClearColor[4]);
+  
+  void 
+  destroy();
 
-   void
-   Destroy();
-
-private:
-    
+public:
+	ID3D11RenderTargetView* m_renderTargetView = nullptr;
 };
