@@ -4,6 +4,10 @@
 #include "Window.h"
 #include "Texture.h"
 
+/**
+ * Inicializa la cadena de intercambio (SwapChain) con el dispositivo y contexto de Direct3D.
+ * @return HRESULT indicando el estado de la inicialización.
+ */
 HRESULT SwapChain::init(Device& device,
                         DeviceContext& deviceContext,
                         Texture& backBuffer,
@@ -15,7 +19,7 @@ HRESULT SwapChain::init(Device& device,
 
   HRESULT hr = S_OK;
 
-  // Crear el dispositivo y contexto
+  // Crear el dispositivo y contexto.
   unsigned int createDeviceFlags = 0;
 #ifdef _DEBUG
   createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -35,7 +39,7 @@ HRESULT SwapChain::init(Device& device,
   };
   unsigned int numFeatureLevels = ARRAYSIZE(featureLevels);
 
-  // Intentar crear el dispositivo con cada driver
+  // Intentar crear el dispositivo con cada driver.
   for (unsigned int driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++) {
     m_driverType = driverTypes[driverTypeIndex];
     hr = D3D11CreateDevice(
@@ -60,7 +64,7 @@ HRESULT SwapChain::init(Device& device,
     return hr;
   }
 
-  // Configurar MSAA
+  // Configurar Multi-Sample Anti-Aliasing (MSAA).
   m_sampleCount = 4;
   hr = device.m_device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, m_sampleCount, &m_qualityLevels);
   if (FAILED(hr) || m_qualityLevels == 0) {
@@ -68,7 +72,7 @@ HRESULT SwapChain::init(Device& device,
     return hr;
   }
 
-  // Configurar la descripci�n del SwapChain
+  // Configurar la descripci�n del SwapChain.
   DXGI_SWAP_CHAIN_DESC sd;
   memset(&sd, 0, sizeof(sd));
   sd.BufferCount = 1;
@@ -82,9 +86,9 @@ HRESULT SwapChain::init(Device& device,
   sd.Windowed = TRUE;
   sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
   sd.SampleDesc.Count = m_sampleCount;
-  sd.SampleDesc.Quality = m_qualityLevels - 1;  // M�xima calidad
+  sd.SampleDesc.Quality = m_qualityLevels - 1;  // Maxima calidad
 
-  // Obtener la f�brica DXGI
+  // Obtener la fabrica DXGI.
   hr = device.m_device->QueryInterface(__uuidof(IDXGIDevice), reinterpret_cast<void**>(&m_dxgiDevice));
   if (FAILED(hr)) {
     ERROR("SwapChain", "init", "Failed to query IDXGIDevice");
@@ -103,14 +107,14 @@ HRESULT SwapChain::init(Device& device,
     return hr;
   }
 
-  // Crear SwapChain
+  // Crear SwapChain.
   hr = m_dxgiFactory->CreateSwapChain(device.m_device, &sd, &m_swapchain);
   if (FAILED(hr)) {
     ERROR("SwapChain", "init", "Failed to create SwapChain");
     return hr;
   }
 
-  // Obtener el buffer trasero
+  // Obtener el buffer trasero.
   hr = m_swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&backBuffer.m_texture));
   if (FAILED(hr)) {
     ERROR("SwapChain", "init", "Failed to get SwapChain buffer");
@@ -120,14 +124,17 @@ HRESULT SwapChain::init(Device& device,
   return S_OK;
 }
 
+// Método de actualización para futuras implementaciones.
 void SwapChain::update() {
   // Se puede agregar c�digo para manejar eventos de SwapChain si es necesario
 }
 
+// Renderiza el contenido asociado a la cadena de intercambio.
 void SwapChain::render() {
   // Este m�todo puede expandirse para gestionar m�ltiples buffers de renderizado
 }
 
+// Libera los recursos asociados a la SwapChain.
 void SwapChain::destroy() {
   SAFE_RELEASE(m_swapchain);
   SAFE_RELEASE(m_dxgiFactory);
@@ -135,6 +142,7 @@ void SwapChain::destroy() {
   SAFE_RELEASE(m_dxgiDevice);
 }
 
+// Presenta el contenido renderizado en la pantalla.
 void SwapChain::present() {
   if (m_swapchain) {
     HRESULT hr = m_swapchain->Present(0, 0);

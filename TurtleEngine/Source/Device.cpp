@@ -1,14 +1,17 @@
 #include "Device.h"
 
+// Libera el dispositivo Direct3D si está asignado.
 void 
 Device::destroy() {
   SAFE_RELEASE(m_device);
 }
 
+// Crea una Render Target View a partir de un recurso.
 HRESULT
 Device::CreateRenderTargetView(ID3D11Resource* pResource, 
-															 const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, 
-															 ID3D11RenderTargetView** ppRTView) {
+							   const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, 
+							   ID3D11RenderTargetView** ppRTView) {
+
 	// Validar prametros de entrada
 	if (!pResource)	{
 		ERROR("Device", "CreateRenderTargetView", "pResurce is nullptr");
@@ -34,6 +37,7 @@ Device::CreateRenderTargetView(ID3D11Resource* pResource,
 	return hr;
 }
 
+// Crea una textura 2D en la GPU.
 HRESULT
 Device::CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc,
                         const D3D11_SUBRESOURCE_DATA* pInitialData,
@@ -60,6 +64,7 @@ Device::CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc,
   return hr;
 }
 
+// Crea una Depth Stencil View para administrar el buffer de profundidad
 HRESULT
 Device::CreateDepthStencilView(ID3D11Resource* pResource,
                                const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc,
@@ -86,6 +91,7 @@ Device::CreateDepthStencilView(ID3D11Resource* pResource,
   return hr;
 }
 
+// Crea un Vertex Shader a partir del código de shader compilado.
 HRESULT
 Device::CreateVertexShader(const void* pShaderBytecode,
                            unsigned int BytecodeLength,
@@ -113,6 +119,7 @@ Device::CreateVertexShader(const void* pShaderBytecode,
   return hr;
 }
 
+// Crea un Input Layout para especificar el formato de los vértices.
 HRESULT
 Device::CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* pInputElementDescs,
                           unsigned int NumElements,
@@ -141,6 +148,7 @@ Device::CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* pInputElementDescs,
   return hr;
 }
 
+// Crea un Pixel Shader.
 HRESULT
 Device::CreatePixelShader(const void* pShaderBytecode,
                           unsigned int BytecodeLength,
@@ -168,6 +176,7 @@ Device::CreatePixelShader(const void* pShaderBytecode,
   return hr;
 }
 
+// Crea un buffer de Direct3D11.
 HRESULT
 Device::CreateBuffer(const D3D11_BUFFER_DESC* pDesc,
                      const D3D11_SUBRESOURCE_DATA* pInitialData,
@@ -194,6 +203,7 @@ Device::CreateBuffer(const D3D11_BUFFER_DESC* pDesc,
   return hr;
 }
 
+// Crea un estado de muestreo (Sampler State).
 HRESULT
 Device::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc,
                            ID3D11SamplerState** ppSamplerState) {
@@ -219,6 +229,7 @@ Device::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc,
   return hr;
 }
 
+// Crea un estado de rasterización (Rasterizer State).
 HRESULT
 Device::CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc,
                               ID3D11RasterizerState** ppRasterizerState) {
@@ -244,6 +255,7 @@ Device::CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc,
   return hr;
 }
 
+// Crea un estado de mezcla (Blend State).
 HRESULT
 Device::CreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc,
                          ID3D11BlendState** ppBlendState) {

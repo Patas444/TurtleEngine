@@ -1,37 +1,13 @@
-﻿/*
- * MIT License
- *
- * Copyright (c) 2024 Roberto Charreton
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * In addition, any project or software that uses this library or class must include
- * the following acknowledgment in the credits:
- *
- * "This project uses software developed by Roberto Charreton and Attribute Overload."
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
-*/
-#define STB_IMAGE_IMPLEMENTATION
+﻿#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "Texture.h"
 #include "Device.h"
 #include "DeviceContext.h"
 
+/**
+ * Inicializa la textura desde un archivo, dependiendo del tipo de extensión.
+ * @return Código de error HRESULT indicando el éxito o fallo de la operación.
+ */
 HRESULT Texture::init(Device device, const std::string& textureName, ExtensionType extensionType) {
   if (!device.m_device) {
     ERROR("Texture", "init", "Device is nullptr in texture loading method");
@@ -42,7 +18,7 @@ HRESULT Texture::init(Device device, const std::string& textureName, ExtensionTy
 
   switch (extensionType) {
   case DDS:
-    // Cargar textura DDS
+    // Cargar textura DDS utilizando DirectX 11
     hr = D3DX11CreateShaderResourceViewFromFile(
       device.m_device,
       textureName.c_str(),
@@ -61,14 +37,14 @@ HRESULT Texture::init(Device device, const std::string& textureName, ExtensionTy
 
   case PNG: {
     int width, height, channels;
-    unsigned char* data = stbi_load(textureName.c_str(), &width, &height, &channels, 4); // 4 bytes por pixel (RGBA)
+    unsigned char* data = stbi_load(textureName.c_str(), &width, &height, &channels, 4); // 4 bytes por pixel (RGBA).
     if (!data) {
       ERROR("Texture", "init", 
            ("Failed to load PNG texture: " + std::string(stbi_failure_reason())).c_str());
       return E_FAIL;
     }
 
-    // Crear descripci�n de textura
+    // Crear descripcion de textura.
     D3D11_TEXTURE2D_DESC textureDesc = {};
     textureDesc.Width = width;
     textureDesc.Height = height;
@@ -79,13 +55,13 @@ HRESULT Texture::init(Device device, const std::string& textureName, ExtensionTy
     textureDesc.Usage = D3D11_USAGE_DEFAULT;
     textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-    // Crear datos de subrecarga
+    // Crear textura en la GPU.
     D3D11_SUBRESOURCE_DATA initData = {};
     initData.pSysMem = data;
     initData.SysMemPitch = width * 4;
 
     hr = device.CreateTexture2D(&textureDesc, &initData, &m_texture);
-    stbi_image_free(data); // Liberar los datos de imagen inmediatamente
+    stbi_image_free(data); // Liberar los datos de la imagen de la RAM.
 
     if (FAILED(hr)) {
       ERROR("Texture", "init", "Failed to create texture from PNG data");
@@ -115,7 +91,10 @@ HRESULT Texture::init(Device device, const std::string& textureName, ExtensionTy
 
   return hr;
 }
-
+/**
+ * Inicializa una textura con dimensiones específicas.
+ * @return Código de error HRESULT.
+ */
 HRESULT Texture::init(Device device, 
                       unsigned int width, 
                       unsigned int height, 
@@ -134,7 +113,7 @@ HRESULT Texture::init(Device device,
 
   HRESULT hr = S_OK;
 
-  // Configuraci�n de la textura
+  // Configuraci�n de la textura.
   D3D11_TEXTURE2D_DESC desc = {};
   desc.Width = width;
   desc.Height = height;
@@ -158,6 +137,7 @@ HRESULT Texture::init(Device device,
 void Texture::update() {
 }
 
+// Método de actualización de la textura.
 void Texture::render(DeviceContext& deviceContext, unsigned int StartSlot, unsigned int NumViews) {
   if (m_textureFromImg) {
     ID3D11ShaderResourceView* nullSRV[] = { nullptr };
@@ -169,6 +149,7 @@ void Texture::render(DeviceContext& deviceContext, unsigned int StartSlot, unsig
   }
 }
 
+// Libera los recursos de la textura.
 void Texture::destroy() {
   SAFE_RELEASE(m_texture);
   SAFE_RELEASE(m_textureFromImg);

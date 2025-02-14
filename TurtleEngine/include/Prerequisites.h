@@ -15,9 +15,12 @@
 #include "Resource.h"
 #include "resource.h"
 
-// MACROS
+// MACROS PARA MANEJO DE RECURSOS Y DEPURACIÓN.
+
+// Libera un recurso COM de DirectX si no es nullptr y lo establece en nullptr.
 #define SAFE_RELEASE(x) if(x != nullptr) x->Release(); x = nullptr;
 
+// Macro para registrar un mensaje de creación de recursos en la consola de depuración.
 #define MESSAGE( classObj, method, state )   \
 {                                            \
    std::wostringstream os_;                  \
@@ -25,6 +28,7 @@
    OutputDebugStringW( os_.str().c_str() );  \
 }
 
+// Macro para registrar mensajes de error en la consola de depuración.
 #define ERROR(classObj, method, errorMSG)                     \
 {                                                             \
     try {                                                     \
@@ -37,29 +41,35 @@
     }                                                         \
 }
 
-// Structures
+// ESTRUCTURAS DE SOMBREADORES Y CONSTANTES.
+
+// Representa un vértice con posición y coordenadas de textura.
 struct 
 SimpleVertex {
   XMFLOAT3 Pos;
   XMFLOAT2 Tex;
 };
 
+// Representa la matriz de vista utilizada en transformaciones de cámara.
 struct 
 CBNeverChanges {
   XMMATRIX mView;
 };
 
+// Representa la matriz de proyección, actualizada en cambios de tamaño de ventana.
 struct 
 CBChangeOnResize {
   XMMATRIX mProjection;
 };
 
+// Representa la matriz del mundo y el color de malla, que pueden cambiar cada fotograma.
 struct 
 CBChangesEveryFrame {
   XMMATRIX mWorld;
   XMFLOAT4 vMeshColor;
 };
 
+// Define los tipos de extensión de imagen compatibles con el sistema.
 enum ExtensionType {
   DDS = 0,
   PNG = 1,

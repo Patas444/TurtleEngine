@@ -4,6 +4,10 @@
 #include "Texture.h"
 #include "DepthStencilView.h"
 
+/**
+ * Inicializa la vista de renderizado (RenderTargetView).
+ * @return HRESULT indicando éxito o fallo en la inicialización.
+ */
 HRESULT 
 RenderTargetView::init(Device& device, Texture &backBuffer, DXGI_FORMAT Format) {
   if (!device.m_device) {
@@ -17,13 +21,13 @@ RenderTargetView::init(Device& device, Texture &backBuffer, DXGI_FORMAT Format) 
 
   HRESULT hr = S_OK;
 
-  // Configurar la descripci�n de la vista del render target
+  // Configurar la descripci�n de la vista del render target.
   D3D11_RENDER_TARGET_VIEW_DESC desc;
   memset(&desc, 0, sizeof(desc));
   desc.Format = Format;
   desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2DMS;
 
-  // Crear RenderTargetView
+  // Crear RenderTargetView.
   hr = device.CreateRenderTargetView(backBuffer.m_texture, &desc, &m_renderTargetView);
   if (FAILED(hr)) {
     ERROR("RenderTargetView", "init", "Failed to create RenderTargetView");
@@ -35,8 +39,10 @@ RenderTargetView::init(Device& device, Texture &backBuffer, DXGI_FORMAT Format) 
 
 void 
 RenderTargetView::update() {
-  // Este m�todo se puede expandir para manejar eventos din�micos de RenderTarget
+  // Este metodo se puede expandir para manejar eventos dinamicos de RenderTarget.
 }
+
+// Renderiza la escena utilizando este RenderTargetView.
 
 void 
 RenderTargetView::render(DeviceContext& deviceContext, 
@@ -52,15 +58,16 @@ RenderTargetView::render(DeviceContext& deviceContext,
     return;
   }
 
-  // Limpiar el render target
+  // Limpiar el render target.
   deviceContext.ClearRenderTargetView(m_renderTargetView, ClearColor);
 
-  // Configurar el render target y el depth stencil
+  // Configurar el render target y el depth stencil.
   deviceContext.OMSetRenderTargets(numViews, 
                                    &m_renderTargetView, 
                                    depthStencilView.m_depthStencilView);
 }
 
+// Libera los recursos asociados a la RenderTargetView.
 void RenderTargetView::destroy() {
   SAFE_RELEASE(m_renderTargetView);
 }
