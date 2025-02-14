@@ -10,7 +10,7 @@ class Texture;
 class 
 SwapChain {
 public:
-    SwapChain()  = default;
+	SwapChain()  = default;
 	~SwapChain() = default;
 
   HRESULT

@@ -123,6 +123,7 @@ InitDevice() {
 
 	// Create Swapchain and BackBuffer
 	hr = g_swapchain.init(g_device, g_deviceContext, g_backBuffer, g_window);
+
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -143,7 +144,7 @@ InitDevice() {
 													 DXGI_FORMAT_D24_UNORM_S8_UINT, 
 													 D3D11_BIND_DEPTH_STENCIL, 
 													 4, 
-													 0);
+													 16);
 	if (FAILED(hr))
 		return hr;
 
