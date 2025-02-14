@@ -1,31 +1,32 @@
 #pragma once
 #include "Prerequisites.h"
+#include "Window.h"
 
-class
-	BaseApp {
+class 
+BaseApp {
 public:
 	BaseApp() = default;
-	~BaseApp() = default;
+	~BaseApp()= default;
 
 	HRESULT
-		init();
+	init();
+	
+	void 
+	update();
+	
+	void 
+	render();
+	
+	void 
+	destroy();
 
-	void
-		update();
-
-	void
-		render();
-
-	void
-		destroy();
-
-	int
-		run(HINSTANCE hInstance,
-			HINSTANCE hPrevInstance,
-			LPWSTR lpCmdLine,
-			int nCmdShow,
+	int 
+	run(HINSTANCE hInstance, 
+			HINSTANCE hPrevInstance, 
+			LPWSTR lpCmdLine, 
+			int nCmdShow, 
 			WNDPROC wndproc);
 
 private:
-
+	Window m_window;
 };
