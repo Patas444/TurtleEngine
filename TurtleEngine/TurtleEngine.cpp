@@ -6,6 +6,8 @@
 #include "Texture.h"
 #include "RenderTargetView.h"
 #include "DepthStencilView.h"
+#include "Viewport.h"
+#include "InputLayout.h"
 
 //--------------------------------------------------------------------------------------
 // Variables globales
@@ -18,11 +20,14 @@ Texture								g_backBuffer;
 Texture								g_depthStencil;
 RenderTargetView					g_renderTargetView;
 DepthStencilView					g_depthStencilView;
+Viewport							g_viewport;
+InputLayout							g_inputLayout;
+
 
 // Recursos para shaders y buffers
 ID3D11VertexShader*					g_pVertexShader = nullptr;
 ID3D11PixelShader*					g_pPixelShader = nullptr;
-ID3D11InputLayout*					g_pVertexLayout = nullptr;
+//ID3D11InputLayout*					g_pVertexLayout = nullptr;
 ID3D11Buffer*						g_pVertexBuffer = nullptr;
 ID3D11Buffer*						g_pIndexBuffer = nullptr;
 ID3D11Buffer*						g_pCBNeverChanges = nullptr;
@@ -187,17 +192,31 @@ InitDevice() {
 	}
 
 	// Definición del Input Layout
-	D3D11_INPUT_ELEMENT_DESC 
-	layout[] = {
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	unsigned int numElements = ARRAYSIZE(layout);
+	std::vector<D3D11_INPUT_ELEMENT_DESC> Layout;
+
+	D3D11_INPUT_ELEMENT_DESC position;
+	position.SemanticName = "POSITION";
+	position.SemanticIndex = 0;
+	position.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	position.InputSlot = 0;
+	position.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT /*0*/;
+	position.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	position.InstanceDataStepRate = 0;
+	Layout.push_back(position);
+
+	D3D11_INPUT_ELEMENT_DESC texcoord;
+	texcoord.SemanticName = "TEXCOORD";
+	texcoord.SemanticIndex = 0;
+	texcoord.Format = DXGI_FORMAT_R32G32_FLOAT;
+	texcoord.InputSlot = 0;
+	texcoord.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT /*12*/;
+	texcoord.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+	texcoord.InstanceDataStepRate = 0;
+	Layout.push_back(texcoord);
 
 	// Creación del Input Layout
-	hr = g_device.CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(), &g_pVertexLayout);
-	pVSBlob->Release();
+	hr = g_inputLayout.init(g_device, Layout, pVSBlob);
+
 	if (FAILED(hr))
 		return hr;
 
@@ -361,7 +380,7 @@ CleanupDevice() {
 	if (g_pCBChangesEveryFrame) g_pCBChangesEveryFrame->Release();
 	if (g_pVertexBuffer) g_pVertexBuffer->Release();
 	if (g_pIndexBuffer) g_pIndexBuffer->Release();
-	if (g_pVertexLayout) g_pVertexLayout->Release();
+	//if (g_pVertexLayout) g_pVertexLayout->Release();
 	if (g_pVertexShader) g_pVertexShader->Release();
 	if (g_pPixelShader) g_pPixelShader->Release();
 
@@ -544,7 +563,8 @@ void Render() {
 	g_depthStencilView.render(g_deviceContext);
 	
 	// Configurar los buffers y shaders para el pipeline
-	g_deviceContext.IASetInputLayout(g_pVertexLayout);
+	//g_deviceContext.IASetInputLayout(g_pVertexLayout);
+	g_inputLayout.render(g_deviceContext);
 	g_deviceContext.IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
 	g_deviceContext.IASetIndexBuffer(g_pIndexBuffer, DXGI_FORMAT_R16_UINT, 0);
 	g_deviceContext.IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
