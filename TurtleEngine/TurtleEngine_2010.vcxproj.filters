@@ -18,6 +18,15 @@
     <Filter Include="Source">
       <UniqueIdentifier>{14439d43-0dce-4016-8b9f-4ec14336fcb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{a482320f-f080-456e-9e42-959ecc2d804e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\src">
+      <UniqueIdentifier>{67e295cd-68ec-4c83-9709-05e91bca258c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui\Includes">
+      <UniqueIdentifier>{042bff32-11d1-4997-8ece-7c49448b0664}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\BaseApp.h">
@@ -59,6 +68,45 @@
     <ClInclude Include="Include\InputLayout.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\ShaderProgram.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\MeshComponent.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SamplerState.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GUI.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\backends\imgui_impl_win32.h">
+      <Filter>Imgui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\backends\imgui_impl_dx11.h">
+      <Filter>Imgui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imconfig.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imgui.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imgui_internal.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imstb_rectpack.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imstb_textedit.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui-docking\imstb_truetype.h">
+      <Filter>Imgui\Includes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TurtleEngine.cpp" />
@@ -91,6 +139,39 @@
     </ClCompile>
     <ClCompile Include="Source\Viewport.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ShaderProgram.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SamplerState.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GUI.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\imgui.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\imgui_demo.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\imgui_draw.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\imgui_tables.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\imgui_widgets.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\backends\imgui_impl_win32.cpp">
+      <Filter>Imgui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui-docking\backends\imgui_impl_dx11.cpp">
+      <Filter>Imgui\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

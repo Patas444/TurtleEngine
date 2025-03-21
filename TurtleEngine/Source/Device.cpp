@@ -1,201 +1,228 @@
 #include "Device.h"
 
-// Libera el dispositivo Direct3D si está asignado.
+// Método para destruir el dispositivo
 void 
 Device::destroy() {
-  SAFE_RELEASE(m_device);
+  SAFE_RELEASE(m_device); // Liberar el dispositivo
 }
 
-// Crea una Render Target View a partir de un recurso.
+// Método para crear un Render Target View
 HRESULT
 Device::CreateRenderTargetView(ID3D11Resource* pResource, 
-							   const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, 
-							   ID3D11RenderTargetView** ppRTView) {
+                              const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, 
+                              ID3D11RenderTargetView** ppRTView) {
+  // Validar parámetros de entrada
+  if (!pResource) {
+    ERROR("Device", "CreateRenderTargetView", "pResource is nullptr");
+    return E_INVALIDARG; // Argumento inválido
+  }
 
-	// Validar prametros de entrada
-	if (!pResource)	{
-		ERROR("Device", "CreateRenderTargetView", "pResurce is nullptr");
-		return E_INVALIDARG; // Argumento Invalido
-	}
+  if (!ppRTView) {
+    ERROR("Device", "CreateRenderTargetView", "ppRTView is nullptr");
+    return E_POINTER; // Puntero nulo
+  }
 
-	if (!ppRTView) {
-		ERROR("Device", "CreateRenderTargetView", "ppRTView is nullptr");
-		return E_POINTER; // Puntero nulo
-	}
+  // Crear el Render Target View
+  HRESULT hr = m_device->CreateRenderTargetView(pResource, pDesc, ppRTView);
 
-	// Crear el Render Target View
-	HRESULT hr = m_device->CreateRenderTargetView(pResource, pDesc, ppRTView);
-
-	if (SUCCEEDED(hr)) {
-		MESSAGE("Device", "CreateRenderTargetView", "Render Target View created successfully!");
-	}
-	else {
-		ERROR("Device", "CreateRenderTargetView", 
+  // Comprobación de éxito o error
+  if (SUCCEEDED(hr)) {
+    MESSAGE("Device", "CreateRenderTargetView", "Render Target View created successfully!");
+  } else {
+    ERROR("Device", "CreateRenderTargetView",
       ("Failed to create Render Target View. HRESULT: " + std::to_string(hr)).c_str());
-	}
+  }
 
-	return hr;
+  return hr;
 }
 
-// Crea una textura 2D en la GPU.
-HRESULT
-Device::CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc,
-                        const D3D11_SUBRESOURCE_DATA* pInitialData,
+// Método para crear una textura 2D
+HRESULT 
+Device::CreateTexture2D(const D3D11_TEXTURE2D_DESC* pDesc, 
+                        const D3D11_SUBRESOURCE_DATA* pInitialData, 
                         ID3D11Texture2D** ppTexture2D) {
+  // Validar parámetros de entrada
   if (!pDesc) {
     ERROR("Device", "CreateTexture2D", "pDesc is nullptr");
-    return E_INVALIDARG;
+    return E_INVALIDARG; // Argumento inválido
   }
+
   if (!ppTexture2D) {
     ERROR("Device", "CreateTexture2D", "ppTexture2D is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear la textura 2D
   HRESULT hr = m_device->CreateTexture2D(pDesc, pInitialData, ppTexture2D);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateTexture2D", "Texture2D created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateTexture2D", "Texture2D created successfully!");
+  } else {
     ERROR("Device", "CreateTexture2D",
-      ("Failed to create Texture2D. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Texture 2D. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;
 }
 
-// Crea una Depth Stencil View para administrar el buffer de profundidad
-HRESULT
-Device::CreateDepthStencilView(ID3D11Resource* pResource,
-                               const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc,
-                               ID3D11DepthStencilView** ppDepthStencilView) {
+// Método para crear un Depth Stencil View
+HRESULT 
+Device::CreateDepthStencilView(ID3D11Resource* pResource, 
+                              const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, 
+                              ID3D11DepthStencilView** ppDepthStencilView) {
+  // Validar parámetros de entrada
   if (!pResource) {
     ERROR("Device", "CreateDepthStencilView", "pResource is nullptr");
-    return E_INVALIDARG;
+    return E_INVALIDARG; // Argumento inválido
   }
+
   if (!ppDepthStencilView) {
     ERROR("Device", "CreateDepthStencilView", "ppDepthStencilView is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear el Depth Stencil View
   HRESULT hr = m_device->CreateDepthStencilView(pResource, pDesc, ppDepthStencilView);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateDepthStencilView", "DepthStencilView created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateDepthStencilView", "Depth Stencil View created successfully!");
+  } else {
     ERROR("Device", "CreateDepthStencilView",
-      ("Failed to create DepthStencilView. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Depth Stencil View. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;
 }
-
-// Crea un Vertex Shader a partir del código de shader compilado.
-HRESULT
-Device::CreateVertexShader(const void* pShaderBytecode,
-                           unsigned int BytecodeLength,
-                           ID3D11ClassLinkage* pClassLinkage,
-                           ID3D11VertexShader** ppVertexShader) {
+HRESULT 
+Device::CreateVertexShader(const void* pShaderBytecode, 
+                          unsigned int BytecodeLength, 
+                          ID3D11ClassLinkage* pClassLinkage, 
+                          ID3D11VertexShader** ppVertexShader) {
+  // Validar parámetros de entrada
   if (!pShaderBytecode) {
-    ERROR("Device", "CreateVertexShader", "pShaderBytecode is nullptr");
-    return E_INVALIDARG;
+    ERROR("Device", "CreateVertexShader", "Invalid shader bytecode");
+    return E_INVALIDARG; // Argumento inválido
   }
+
+  if (BytecodeLength == 0) {
+    ERROR("Device", "CreateVertexShader", "Bytecode length is 0");
+    return E_INVALIDARG; // Argumento inválido
+  }
+
   if (!ppVertexShader) {
     ERROR("Device", "CreateVertexShader", "ppVertexShader is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear el Vertex Shader
   HRESULT hr = m_device->CreateVertexShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateVertexShader", "VertexShader created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateVertexShader", "Vertex Shader created successfully!");
+  } else {
     ERROR("Device", "CreateVertexShader",
-      ("Failed to create VertexShader. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Vertex Shader. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;
 }
 
-// Crea un Input Layout para especificar el formato de los vértices.
-HRESULT
-Device::CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* pInputElementDescs,
-                          unsigned int NumElements,
-                          const void* pShaderBytecodeWithInputSignature,
-                          unsigned int BytecodeLength,
+HRESULT 
+Device::CreateInputLayout(const D3D11_INPUT_ELEMENT_DESC* pInputElementDescs, 
+                          unsigned int NumElements, 
+                          const void* pShaderBytecodeWithInputSignature, 
+                          unsigned int BytecodeLength, 
                           ID3D11InputLayout** ppInputLayout) {
+  // Validar parámetros de entrada
   if (!pInputElementDescs) {
-    ERROR("Device", "CreateInputLayout", "pInputElementDescs is nullptr");
-    return E_INVALIDARG;
+    ERROR("Device", "CreateInputLayout", "Invalid input element description");
+    return E_INVALIDARG; // Argumento inválido
   }
+
+  if (!pShaderBytecodeWithInputSignature) {
+    ERROR("Device", "CreateInputLayout", "Invalid shader bytecode");
+    return E_INVALIDARG; // Argumento inválido
+  }
+
   if (!ppInputLayout) {
     ERROR("Device", "CreateInputLayout", "ppInputLayout is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear el Input Layout
   HRESULT hr = m_device->CreateInputLayout(pInputElementDescs, NumElements, pShaderBytecodeWithInputSignature, BytecodeLength, ppInputLayout);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateInputLayout", "InputLayout created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateInputLayout", "Input Layout created successfully!");
+  } else {
     ERROR("Device", "CreateInputLayout",
-      ("Failed to create InputLayout. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Input Layout. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;
 }
 
-// Crea un Pixel Shader.
-HRESULT
-Device::CreatePixelShader(const void* pShaderBytecode,
-                          unsigned int BytecodeLength,
+HRESULT 
+Device::CreatePixelShader(const void* pShaderBytecode, 
+                          unsigned int BytecodeLength, 
                           ID3D11ClassLinkage* pClassLinkage,
                           ID3D11PixelShader** ppPixelShader) {
+  // Validar parámetros de entrada
   if (!pShaderBytecode) {
-    ERROR("Device", "CreatePixelShader", "pShaderBytecode is nullptr");
-    return E_INVALIDARG;
-  }
-  if (!ppPixelShader) {
-    ERROR("Device", "CreatePixelShader", "ppPixelShader is nullptr");
-    return E_POINTER;
+    ERROR("Device", "CreateInputLayout", "Invalid shader bytecode");
+    return E_INVALIDARG; // Argumento inválido
   }
 
+  if (BytecodeLength == 0) {
+    ERROR("Device", "CreateVertexShader", "Bytecode length is 0");
+    return E_INVALIDARG; // Argumento inválido
+  }
+
+  if (!ppPixelShader) {
+    ERROR("Device", "CreateInputLayout", "ppPixelShader is nullptr");
+    return E_INVALIDARG; // Puntero nulo
+  }
+
+  // Crear el Pixel Shader
   HRESULT hr = m_device->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreatePixelShader", "PixelShader created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreatePixelShader", "Pixel Shader created successfully!");
+  } else {
     ERROR("Device", "CreatePixelShader",
-      ("Failed to create PixelShader. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Pixel Shader. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;
 }
 
-// Crea un buffer de Direct3D11.
-HRESULT
-Device::CreateBuffer(const D3D11_BUFFER_DESC* pDesc,
-                     const D3D11_SUBRESOURCE_DATA* pInitialData,
-                     ID3D11Buffer** ppBuffer) {
+HRESULT 
+Device::CreateBuffer(const D3D11_BUFFER_DESC* pDesc, 
+                    const D3D11_SUBRESOURCE_DATA* pInitialData, 
+                    ID3D11Buffer** ppBuffer) {
+  // Validar parámetros de entrada
   if (!pDesc) {
     ERROR("Device", "CreateBuffer", "pDesc is nullptr");
-    return E_INVALIDARG;
+    return E_INVALIDARG; // Argumento inválido
   }
+
   if (!ppBuffer) {
     ERROR("Device", "CreateBuffer", "ppBuffer is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear el Buffer
   HRESULT hr = m_device->CreateBuffer(pDesc, pInitialData, ppBuffer);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateBuffer", "Buffer created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateBuffer", "Buffer created successfully!");
+  } else {
     ERROR("Device", "CreateBuffer",
       ("Failed to create Buffer. HRESULT: " + std::to_string(hr)).c_str());
   }
@@ -203,79 +230,29 @@ Device::CreateBuffer(const D3D11_BUFFER_DESC* pDesc,
   return hr;
 }
 
-// Crea un estado de muestreo (Sampler State).
-HRESULT
-Device::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc,
+HRESULT 
+Device::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, 
                            ID3D11SamplerState** ppSamplerState) {
+  // Validar parámetros de entrada
   if (!pSamplerDesc) {
     ERROR("Device", "CreateSamplerState", "pSamplerDesc is nullptr");
-    return E_INVALIDARG;
+    return E_INVALIDARG; // Argumento inválido
   }
+
   if (!ppSamplerState) {
     ERROR("Device", "CreateSamplerState", "ppSamplerState is nullptr");
-    return E_POINTER;
+    return E_POINTER; // Puntero nulo
   }
 
+  // Crear el Sampler State
   HRESULT hr = m_device->CreateSamplerState(pSamplerDesc, ppSamplerState);
 
+  // Comprobación de éxito o error
   if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateSamplerState", "SamplerState created successfully");
-  }
-  else {
+    MESSAGE("Device", "CreateSamplerState", "Sampler State created successfully!");
+  } else {
     ERROR("Device", "CreateSamplerState",
-      ("Failed to create SamplerState. HRESULT: " + std::to_string(hr)).c_str());
-  }
-
-  return hr;
-}
-
-// Crea un estado de rasterización (Rasterizer State).
-HRESULT
-Device::CreateRasterizerState(const D3D11_RASTERIZER_DESC* pRasterizerDesc,
-                              ID3D11RasterizerState** ppRasterizerState) {
-  if (!pRasterizerDesc) {
-    ERROR("Device", "CreateRasterizerState", "pRasterizerDesc is nullptr");
-    return E_INVALIDARG;
-  }
-  if (!ppRasterizerState) {
-    ERROR("Device", "CreateRasterizerState", "ppRasterizerState is nullptr");
-    return E_POINTER;
-  }
-
-  HRESULT hr = m_device->CreateRasterizerState(pRasterizerDesc, ppRasterizerState);
-
-  if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateRasterizerState", "RasterizerState created successfully");
-  }
-  else {
-    ERROR("Device", "CreateRasterizerState",
-      ("Failed to create RasterizerState. HRESULT: " + std::to_string(hr)).c_str());
-  }
-
-  return hr;
-}
-
-// Crea un estado de mezcla (Blend State).
-HRESULT
-Device::CreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc,
-                         ID3D11BlendState** ppBlendState) {
-  if (!pBlendStateDesc) {
-    ERROR("Device", "CreateBlendState", "pBlendStateDesc is nullptr");
-    return E_INVALIDARG;
-  }
-  if (!ppBlendState) {
-    ERROR("Device", "CreateBlendState", "ppBlendState is nullptr");
-    return E_POINTER;
-  }
-
-  HRESULT hr = m_device->CreateBlendState(pBlendStateDesc, ppBlendState);
-
-  if (SUCCEEDED(hr)) {
-    MESSAGE("Device", "CreateBlendState", "BlendState created successfully");
-  }
-  else {
-    ERROR("Device", "CreateBlendState",
-      ("Failed to create BlendState. HRESULT: " + std::to_string(hr)).c_str());
+      ("Failed to create Sampler State. HRESULT: " + std::to_string(hr)).c_str());
   }
 
   return hr;

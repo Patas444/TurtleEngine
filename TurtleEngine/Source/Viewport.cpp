@@ -2,33 +2,41 @@
 #include "Window.h"
 #include "DeviceContext.h"
 
+// Inicializa la vista (viewport) usando las dimensiones de una ventana dada
 HRESULT 
 Viewport::init(const Window& window) {
-  if (!window.m_hWnd) {
-    ERROR("Viewport", "init", "Window handle (m_hWnd) is nullptr");
-    return E_POINTER;
-  }
-  if (window.m_width == 0 || window.m_height == 0) {
-    ERROR("Viewport", "init", "Width or height is zero");
-    return E_INVALIDARG;
+  HRESULT hr = S_OK;
+
+  // Verifica si la ventana es válida
+  if (window.m_hWnd == nullptr) {
+    ERROR("Viewport", "init", "Window is nullptr in Viewport init method");
   }
 
-  m_viewport.Width = static_cast<float>(window.m_width);
-  m_viewport.Height = static_cast<float>(window.m_height);
-  m_viewport.MinDepth = 0.0f;
-  m_viewport.MaxDepth = 1.0f;
-  m_viewport.TopLeftX = 0;
-  m_viewport.TopLeftY = 0;
+  // Configura las propiedades de la vista (viewport)
+  m_viewport.Width = static_cast<float>(window.m_width);  // Ancho de la ventana
+  m_viewport.Height = static_cast<float>(window.m_height); // Alto de la ventana
+  m_viewport.MinDepth = 0.0f;  // Profundidad mínima
+  m_viewport.MaxDepth = 1.0f;  // Profundidad máxima
+  m_viewport.TopLeftX = 0;     // Coordenada X de la esquina superior izquierda
+  m_viewport.TopLeftY = 0;     // Coordenada Y de la esquina superior izquierda
 
-  return S_OK;
+  return E_NOTIMPL;  // Este método aún no está implementado completamente
 }
 
-HRESULT Viewport::init(unsigned int width, unsigned int height) {
-  if (width == 0 || height == 0) {
-    ERROR("Viewport", "init", "Width or height is zero");
-    return E_INVALIDARG;
+// Inicializa la vista (viewport) usando un ancho y alto específicos
+HRESULT 
+Viewport::init(unsigned int width, unsigned int height) {
+  // Verifica que el ancho no sea cero
+  if (width == 0) {
+    ERROR("Viewport", "init", "Width is zero in init method");
   }
 
+  // Verifica que el alto no sea cero
+  if (height == 0) {
+    ERROR("Viewport", "init", "Height is zero in init method");
+  }
+
+  // Configura las propiedades de la vista (viewport)
   m_viewport.Width = static_cast<float>(width);
   m_viewport.Height = static_cast<float>(height);
   m_viewport.MinDepth = 0.0f;
@@ -36,22 +44,30 @@ HRESULT Viewport::init(unsigned int width, unsigned int height) {
   m_viewport.TopLeftX = 0;
   m_viewport.TopLeftY = 0;
 
-  return S_OK;
+  return E_NOTIMPL;  // Este método aún no está implementado completamente
 }
 
-void Viewport::update() {
-  // Método vacío, pero se puede usar para manejar cambios dinámicos en el viewport
+// Método vacío para actualizar la vista (viewport), pero está reservado para futuras mejoras
+void 
+Viewport::update() {
+  // No se realiza ninguna actualización por el momento
 }
 
-void Viewport::render(DeviceContext& deviceContext) {
+// Renderiza la vista (viewport) en el dispositivo de contexto especificado
+void 
+Viewport::render(DeviceContext& deviceContext) {
+  // Verifica si el contexto del dispositivo es válido
   if (!deviceContext.m_deviceContext) {
-    ERROR("Viewport", "render", "DeviceContext is nullptr");
+    ERROR("Viewport", "render", "DeviceContext is nullptr in Viewport render method");
     return;
   }
 
+  // Establece la vista (viewport) en el contexto del dispositivo
   deviceContext.RSSetViewports(1, &m_viewport);
 }
 
-void Viewport::destroy() {
-  // No hay recursos dinámicos que liberar, pero se mantiene el método para futura expansión.
+// Método para destruir la vista, aunque no hay recursos dinámicos que liberar en este caso
+void 
+Viewport::destroy() {
+  // No hay recursos que liberar por ahora, pero este método puede expandirse en el futuro
 }

@@ -7,22 +7,22 @@ class DeviceContext;
 class Window;
 class Texture;
 
-// Clase para manejar el intercambio de buffers en DirectX 11.
+/**
+ * @class SwapChain
+ * 
+ *
+ * La clase `SwapChain` es responsable de gestionar la cadena de intercambio de buffers, 
+ * lo que permite la presentación de contenido en la pantalla mediante Direct3D 11.
+ * La cadena de intercambio se utiliza para manejar el rendering a la pantalla, 
+ * alternando entre un buffer trasero y el buffer frontal que se muestra al usuario.
+ */
 class 
 SwapChain {
 public:
-	SwapChain()  = default;
-	~SwapChain() = default;
+  SwapChain() = default;  ///< Constructor por defecto.
+  ~SwapChain() = default; ///< Destructor.
 
-    
-  /**
-   * @brief Inicializa la cadena de intercambio.
-   * @param device Referencia al dispositivo de DirectX.
-   * @param deviceContext Referencia al contexto del dispositivo.
-   * @param backBuffer Referencia a la textura del buffer trasero.
-   * @param window Referencia a la ventana asociada.
-   * @return HRESULT Código de error si falla la inicialización.
-  */
+  // Inicializa la cadena de intercambio.
   HRESULT
   init(Device & device, 
        DeviceContext & deviceContext, 
@@ -36,36 +36,37 @@ public:
   // Renderiza el contenido en la cadena de intercambio.
   void 
   render();
-  
-  // Libera los recursos utilizados por la cadena de intercambio.
+
+  // Libera los recursos asociados a la cadena de intercambio.
   void 
   destroy();
 
-  // Presenta el buffer trasero en la pantalla.
+  // Presenta el contenido en la cadena de intercambio.
   void
   present();
 
 public:
-  IDXGISwapChain* m_swapchain = nullptr;
-  D3D_DRIVER_TYPE m_driverType = D3D_DRIVER_TYPE_NULL;
+  IDXGISwapChain* g_pSwapChain = nullptr; ///< Puntero a la cadena de intercambio de DirectX (IDXGISwapChain).
+  D3D_DRIVER_TYPE m_driverType = D3D_DRIVER_TYPE_NULL; ///< Tipo de controlador de Direct3D.
+
 private:
-  D3D_FEATURE_LEVEL m_featureLevel = D3D_FEATURE_LEVEL_11_0;
+  D3D_FEATURE_LEVEL m_featureLevel = D3D_FEATURE_LEVEL_11_0; ///< Nivel de características soportado por Direct3D.
+  
   // MSAA Configuration
   /*
-   * Para evitar que los p�xeles se vean con un efecto de "serrucho" (aliasing) en DirectX 11 con C++,
-   * se puede utilizar una t�cnica llamada anti-aliasing.
+   * Para evitar que los píxeles se vean con un efecto de "serrucho" (aliasing) en DirectX 11 con C++,
+   * se puede utilizar una técnica llamada anti-aliasing.
    *
    * Multisample Anti-Aliasing (MSAA)
-   * MSAA es una t�cnica que suaviza los bordes de los objetos al muestrear varios puntos por p�xel.
+   * MSAA es una técnica que suaviza los bordes de los objetos al muestrear varios puntos por píxel.
    * Para habilitar MSAA en DirectX 11:
    *
    */
-  unsigned int m_sampleCount;  // Number of MSAA samples (4x MSAA)
-  unsigned int m_qualityLevels;
+  unsigned int m_sampleCount; ///< Número de muestras MSAA (ejemplo: 4x MSAA).
+  unsigned int m_qualityLevels; ///< Niveles de calidad para MSAA.
 
   // Punteros a las interfaces DXGI
-  IDXGIDevice* m_dxgiDevice = nullptr;
-  IDXGIAdapter* m_dxgiAdapter = nullptr;
-  IDXGIFactory* m_dxgiFactory = nullptr;
-
+  IDXGIDevice* m_dxgiDevice = nullptr; ///< Puntero a la interfaz de dispositivo DXGI.
+  IDXGIAdapter* m_dxgiAdapter = nullptr; ///< Puntero a la interfaz de adaptador DXGI.
+  IDXGIFactory* m_dxgiFactory = nullptr; ///< Puntero a la fábrica DXGI.
 };

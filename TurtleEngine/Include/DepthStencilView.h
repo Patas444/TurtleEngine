@@ -6,32 +6,32 @@ class Device;
 class DeviceContext;
 class Texture;
 
-class
-DepthStencilView {
+// Clase DepthStencilView, que maneja la vista de profundidad y esténcil en Direct3D.
+class DepthStencilView {
 public:
-	DepthStencilView() = default;
-	~DepthStencilView() = default;
+    // Constructor por defecto.
+    DepthStencilView() = default;
 
-	/*
-	* Inicializa la vista de profundidad y esténcil.
-	* @return Código HRESULT indicando éxito o error.	
-	*/
-	HRESULT
-	init(Device& device, Texture& depthStencil, DXGI_FORMAT format);
+    // Destructor por defecto.
+    ~DepthStencilView() = default;
 
-	// Actualiza la vista de profundidad y esténcil.
-	void
-	update();
+    /*
+    * Inicializa la vista de profundidad y esténcil.
+    * @param device El dispositivo gráfico donde se crea la vista.
+    */
+    HRESULT init(Device& device, Texture& depthStencil, DXGI_FORMAT format);
 
-	// Renderiza la vista de profundidad y esténcil.
-	void
-	render(DeviceContext& deviceContext);
+    // Actualiza la vista de profundidad y esténcil.
+    void update();
 
-	// Libera los recursos de la vista de profundidad y esténcil.
-	void
-	destroy();
+    // Renderiza la vista de profundidad y esténcil.
+    // @param deviceContext El contexto del dispositivo que usará esta vista.
+    void render(DeviceContext& deviceContext);
 
-// Puntero a la vista de profundidad y esténcil de Direct3D.
+    // Libera los recursos asociados a la vista de profundidad y esténcil.
+    void destroy();
+
 public:
-ID3D11DepthStencilView* m_depthStencilView = nullptr;
+    // Puntero a la vista de profundidad y esténcil de Direct3D.
+    ID3D11DepthStencilView* m_depthStencilView = nullptr;
 };

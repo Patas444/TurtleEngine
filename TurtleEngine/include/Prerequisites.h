@@ -1,26 +1,35 @@
-#pragma once
-// Librerias STD
-#include <string>
+﻿#pragma once
+
+// Librerías estándar
+#include <windows.h>
 #include <sstream>
 #include <vector>
-#include <windows.h>
+#include <string>
 #include <xnamath.h>
-//#include <memory>
+#include <iostream>
+
+// Librerías para manejo de memoria y hilos
 #include <thread>
 
-// Librerias DirectX
+// Librerías de DirectX
 #include <d3d11.h>
 #include <d3dx11.h>
 #include <d3dcompiler.h>
-#include "Resource.h"
 #include "resource.h"
+#include "Resource.h"
 
-// MACROS PARA MANEJO DE RECURSOS Y DEPURACI�N.
+// Librerías de ImGUI para interfaces gráficas
+#include <imgui.h>
+#include <imgui_impl_dx11.h>
+#include <imgui_internal.h>
+#include "imgui_impl_win32.h"
 
-// Libera un recurso COM de DirectX si no es nullptr y lo establece en nullptr.
+// MACROS para simplificar tareas comunes
+
+// Macro para liberar un recurso DirectX de forma segura
 #define SAFE_RELEASE(x) if(x != nullptr) x->Release(); x = nullptr;
 
-// Macro para registrar un mensaje de creaci�n de recursos en la consola de depuraci�n.
+// Macro para mostrar mensajes de creación de recursos
 #define MESSAGE( classObj, method, state )   \
 {                                            \
    std::wostringstream os_;                  \
@@ -28,50 +37,71 @@
    OutputDebugStringW( os_.str().c_str() );  \
 }
 
-// Macro para registrar mensajes de error en la consola de depuraci�n.
-#define ERROR(classObj, method, errorMSG)                     \
-{                                                             \
-    try {                                                     \
-        std::wostringstream os_;                              \
-        os_ << L"ERROR : " << classObj << L"::" << method     \
-            << L" : " << errorMSG << L"\n";                   \
-        OutputDebugStringW(os_.str().c_str());                \
-    } catch (...) {                                           \
-        OutputDebugStringW(L"Failed to log error message.\n");\
-    }                                                         \
+// Macro para mostrar errores con información detallada sobre el error
+#define ERROR( classObj, method, errorMSG )  \
+{                                            \
+   std::wostringstream os_;                  \
+   os_ << "ERROR : " << classObj << "::" << method << " : " << "  Error in data from params [" << errorMSG << "] \n"; \
+   OutputDebugStringW( os_.str().c_str() );  \
+   exit(1);                                  \
 }
 
-// ESTRUCTURAS DE SOMBREADORES Y CONSTANTES.
+// Estructuras de datos utilizadas en la aplicación
 
-// Representa un v�rtice con posici�n y coordenadas de textura.
-struct 
-SimpleVertex {
-  XMFLOAT3 Pos;
-  XMFLOAT2 Tex;
+// Estructura simple para almacenar vértices (posición y coordenadas de textura)
+struct SimpleVertex {
+  XMFLOAT3 Pos; // Posición del vértice
+  XMFLOAT2 Tex; // Coordenadas de textura
 };
 
-// Representa la matriz de vista utilizada en transformaciones de c�mara.
-struct 
-CBNeverChanges {
-  XMMATRIX mView;
+// Estructura para almacenar cambios constantes que no cambian
+struct CBNeverChanges {
+  XMMATRIX mView; // Matriz de vista
 };
 
-// Representa la matriz de proyecci�n, actualizada en cambios de tama�o de ventana.
-struct 
-CBChangeOnResize {
-  XMMATRIX mProjection;
+// Estructura para almacenar cambios cuando se cambia el tamaño de la ventana
+struct CBChangeOnResize {
+  XMMATRIX mProjection; // Matriz de proyección
 };
 
-// Representa la matriz del mundo y el color de malla, que pueden cambiar cada fotograma.
-struct 
-CBChangesEveryFrame {
-  XMMATRIX mWorld;
-  XMFLOAT4 vMeshColor;
+// Estructura para almacenar los cambios en cada cuadro
+struct CBChangesEveryFrame {
+  XMMATRIX mWorld;     // Matriz de transformación mundial
+  XMFLOAT4 vMeshColor; // Color del mesh
 };
 
-// Define los tipos de extensi�n de imagen compatibles con el sistema.
+// Enumeración para tipos de extensión de archivo
 enum ExtensionType {
-  DDS = 0,
-  PNG = 1,
-  JPG = 2
+  DDS = 0, 
+  PNG = 1, 
+  JPG = 2  
+};
+
+// Enumeración para tipos de shaders
+enum ShaderType {
+  VERTEX_SHADER = 0, // Shader de vértices
+  PIXEL_SHADER = 1   // Shader de píxeles
+};
+
+// Estructura para representar una cámara
+struct Camera {
+  XMFLOAT3 position; // Posición de la cámara
+  XMFLOAT3 target;   // Objetivo o punto hacia donde apunta la cámara
+  XMFLOAT3 up;       // Vector hacia arriba de la cámara
+  XMFLOAT3 forward;  // Dirección hacia adelante de la cámara
+  XMFLOAT3 right;    // Dirección hacia la derecha de la cámara
+
+  float yaw;         // Ángulo de rotación en el eje Y (giro)
+  float pitch;       // Ángulo de rotación en el eje X (inclinación)
+
+  // Constructor por defecto, establece valores iniciales para la cámara
+  Camera() {
+    position = XMFLOAT3(0.0f, 1.0f, -5.0f);
+    target = XMFLOAT3(0.0f, 1.0f, 0.0f);
+    up = XMFLOAT3(0.0f, 1.0f, 0.0f);
+    forward = XMFLOAT3(0.0f, 0.0f, 1.0f);
+    right = XMFLOAT3(1.0f, 0.0f, 0.0f);
+    yaw = 0.0f;
+    pitch = 0.0f;
+  }
 };

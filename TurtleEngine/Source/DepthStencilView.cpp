@@ -3,57 +3,58 @@
 #include "DeviceContext.h"
 #include "Texture.h"
 
-//  Inicializa la vista de Depth Stencil.
-// @param device Referencia al objeto Device.
-// @param depthStencil Referencia a la textura de Depth Stencil.
-// @param format Formato DXGI del Depth Stencil.
-// @return HRESULT indicando éxito o error en la inicialización.
-HRESULT DepthStencilView::init(Device& device, Texture& depthStencil, DXGI_FORMAT format) {
-  if (!device.m_device) {
-    ERROR("DepthStencilView", "init", "Device is nullptr");
-    return E_POINTER;
-  }
-  if (!depthStencil.m_texture) {
-    ERROR("DepthStencilView", "init", "DepthStencil texture is nullptr");
-    return E_POINTER;
-  }
-
+// Método para inicializar el DepthStencilView
+HRESULT
+DepthStencilView::init(Device& device, Texture& depthStencil, DXGI_FORMAT format) {
   HRESULT hr = S_OK;
 
-  // Configurar la descripci�n de la vista del Depth Stencil
+  // Verificación de que el dispositivo no es nulo
+  if (device.m_device == nullptr) {
+    ERROR("RenderTargetView", "init", "Device is nullptr in DepthStencilView init method");
+  }
+
+  // Verificación de que la textura de DepthStencil no es nula
+  if (!depthStencil.m_texture) {
+    ERROR("RenderTargetView", "init", "depthStencil texture is nullptr in DepthStencilView init method");
+  }
+
+  // Configuración de las opciones del DepthStencilView
   D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
   memset(&descDSV, 0, sizeof(descDSV));
-  descDSV.Format = format;
-  descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-  descDSV.Texture2D.MipSlice = 0;
+  descDSV.Format = format;  // Formato de la vista
+  descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS; // Tipo de vista (multisample)
 
-  // Crear la Depth Stencil View
+  // Crear el DepthStencilView con la textura proporcionada
   hr = device.CreateDepthStencilView(depthStencil.m_texture, &descDSV, &m_depthStencilView);
+
+  // Comprobación de errores en la creación del DepthStencilView
   if (FAILED(hr)) {
-    ERROR("DepthStencilView", "init", "Failed to create DepthStencilView");
+    ERROR("DepthStencilView", "CreateDepthStencilView", "Failed to create Depth Stencil View.");
     return hr;
   }
 
   return S_OK;
 }
 
-// Renderiza el Depth Stencil View limpiándolo.
-// @param deviceContext Referencia al contexto del dispositivo.
-void DepthStencilView::render(DeviceContext& deviceContext) {
-  if (!m_depthStencilView) {
-    ERROR("DepthStencilView", "render", "DepthStencilView is nullptr");
-    return;
-  }
+// Método de actualización (vacío en este caso)
+void
+DepthStencilView::update() {
+}
+
+// Método para renderizar, limpiando la vista de DepthStencil
+void
+DepthStencilView::render(DeviceContext& deviceContext) {
+  // Verificación de que el contexto del dispositivo no es nulo
   if (!deviceContext.m_deviceContext) {
-    ERROR("DepthStencilView", "render", "DeviceContext is nullptr");
-    return;
+    ERROR("DepthStencilView", "render", "DeviceContext is nullptr in DepthStencilView render method");
   }
 
-  // Limpiar el depth stencil
+  // Limpiar el DepthStencilView
   deviceContext.ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-// Libera los recursos asociados al Depth Stencil View.
-void DepthStencilView::destroy() {
-  SAFE_RELEASE(m_depthStencilView);
+// Método para destruir el DepthStencilView
+void
+DepthStencilView::destroy() {
+  SAFE_RELEASE(m_depthStencilView);  // Liberar recursos del DepthStencilView
 }
