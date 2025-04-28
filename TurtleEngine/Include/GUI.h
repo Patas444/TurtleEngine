@@ -1,10 +1,10 @@
 #pragma once
 #include "Prerequisites.h"
+#include "ECS/Transform.h"
 
 class Window;
 class Device;
 class DeviceContext;
-class BaseApp;
 
 class
 GUI {
@@ -34,13 +34,13 @@ public:
   GUITab(const std::string& tabName);
 
   void
-  transformWindow(BaseApp& app);
+  transformWindow(Transform& transform);
 
   void
   vec3Control(const std::string& label,
-  float* values,
-  float resetValues = 0.0f,
-  float columnWidth = 100.0f);
+              float* values,
+              float resetValues = 0.0f,
+              float columnWidth = 100.0f);
 
 private:
 };

@@ -1,11 +1,17 @@
 ﻿#include "BaseApp.h"
 
+XMFLOAT4                            m_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
+
+
+
+
 /**
  * Inicializa la aplicación.
  * Creación de un dispositivo Direct3D y una cadena de intercambio.
  * @return HRESULT con el estado de la inicialización.
  */
-XMFLOAT4                            m_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
+
+
 
 HRESULT
 BaseApp::init() {
@@ -13,7 +19,6 @@ BaseApp::init() {
 
 	// Inicializa Swapchain y BackBuffer
 	hr = m_swapchain.init(m_device, m_deviceContext, m_backBuffer, m_window);
-
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -22,7 +27,6 @@ BaseApp::init() {
 	hr = m_renderTargetView.init(m_device,
 		m_backBuffer,
 		DXGI_FORMAT_R8G8B8A8_UNORM);
-
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -33,7 +37,6 @@ BaseApp::init() {
 		m_window.m_height,
 		DXGI_FORMAT_D24_UNORM_S8_UINT,
 		D3D11_BIND_DEPTH_STENCIL, 4, 16);
-
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -42,18 +45,17 @@ BaseApp::init() {
 	hr = m_depthStencilView.init(m_device,
 		m_depthStencil,
 		DXGI_FORMAT_D24_UNORM_S8_UINT);
-
 	if (FAILED(hr)) {
 		return hr;
 	}
 
 	// Configura el viewport
-	m_viewport.init(m_window);
+	hr = m_viewport.init(m_window);
 
 	// Definición del Input Layout
 	std::vector<D3D11_INPUT_ELEMENT_DESC> Layout;
 
-	D3D11_INPUT_ELEMENT_DESC position;
+	D3D11_INPUT_ELEMENT_DESC position{};
 	position.SemanticName = "POSITION";
 	position.SemanticIndex = 0;
 	position.Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -63,7 +65,7 @@ BaseApp::init() {
 	position.InstanceDataStepRate = 0;
 	Layout.push_back(position);
 
-	D3D11_INPUT_ELEMENT_DESC texcoord;
+	D3D11_INPUT_ELEMENT_DESC texcoord{};
 	texcoord.SemanticName = "TEXCOORD";
 	texcoord.SemanticIndex = 0;
 	texcoord.Format = DXGI_FORMAT_R32G32_FLOAT;
@@ -73,86 +75,8 @@ BaseApp::init() {
 	texcoord.InstanceDataStepRate = 0;
 	Layout.push_back(texcoord);
 
-	// Creación del Input Layout
+	// Creación del Shader Program
 	hr = m_shaderProgram.init(m_device, "TurtleEngine.fx", Layout);
-	if (FAILED(hr)) {
-		return hr;
-	}
-
-	// Creación del Vertex Buffer
-	SimpleVertex vertices[] = {
-
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
-
-		{ XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
-		{ XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
-		{ XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
-	};
-
-
-	// Creación del Index Buffer
-	unsigned int indices[] =
-	{
-		3,1,0,
-		2,1,3,
-
-		6,4,5,
-		7,4,6,
-
-		11,9,8,
-		10,9,11,
-
-		14,12,13,
-		15,12,14,
-
-		19,17,16,
-		18,17,19,
-
-		22,20,21,
-		23,20,22
-	};
-
-	for (SimpleVertex vertex : vertices) {
-		m_meshComponent.m_vertex.push_back(vertex);
-	}
-
-	for (unsigned int index : indices) {
-		m_meshComponent.m_index.push_back(index);
-	}
-
-	m_meshComponent.m_numVertex = m_meshComponent.m_vertex.size();
-	m_meshComponent.m_numIndex = m_meshComponent.m_index.size();
-
-	hr = m_vertexBuffer.init(m_device, m_meshComponent, D3D11_BIND_VERTEX_BUFFER);
-	if (FAILED(hr)) {
-		return hr;
-	}
-
-	hr = m_indexBuffer.init(m_device, m_meshComponent, D3D11_BIND_INDEX_BUFFER);
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -166,31 +90,6 @@ BaseApp::init() {
 	if (FAILED(hr))
 		return hr;
 
-	// Cargar las Texturas
-	hr = m_changesEveryFrame.init(m_device, sizeof(CBChangesEveryFrame));
-	if (FAILED(hr))
-		return hr;
-
-	hr = m_textureRV.init(m_device, "seafloor.dds", DDS);
-	if (FAILED(hr))
-		return hr;
-
-	// Creación del Sampler State
-	hr = m_samplerState.init(m_device);
-	if (FAILED(hr))
-		return hr;
-
-	scale.x = 1.0f;
-	scale.y = 1.0f;
-	scale.z = 1.0f;
-
-	// Inicialización de las matrices del mundo
-	m_World = XMMatrixIdentity();
-
-	scale.x = 1.0f;
-	scale.y = 1.0f;
-	scale.z = 1.0f;
-
 	// Inicialización de View Matrix
 	XMVECTOR Eye = XMVectorSet(0.0f, 3.0f, -6.0f, 0.0f);
 	XMVECTOR At = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
@@ -198,6 +97,37 @@ BaseApp::init() {
 	m_View = XMMatrixLookAtLH(Eye, At, Up);
 
 	m_UI.init(m_window.m_hWnd, m_device.m_device, m_deviceContext.m_deviceContext);
+
+	// Set Vela Actor
+	// Load the Texture
+
+	Texture Color;
+	Color.init(m_device, "Texture/Mario64Texture.png", ExtensionType::PNG);
+	
+	m_default.init(m_device, "Texture/Default.png", ExtensionType::PNG);
+
+	m_Textures.push_back(Color);
+
+	m_Textures.push_back(m_default);
+
+	m_Vela.LoadFBXModel("Models/MarioandLuigi.fbx");
+	AModel = EngineUtilities::MakeShared<Actor>(m_device);
+	if (!AModel.isNull()) {
+		// Init Transform
+		AModel->getComponent<Transform>()->setTransform(EngineUtilities::Vector3(2.0f, 1.0f, 1.0f),
+			EngineUtilities::Vector3(XM_PI / -2.0f, 0.0f, XM_PI / 2.0f),
+			EngineUtilities::Vector3(1.0f, 1.0f, 1.0f));
+		// Init Actor Mesh
+		AModel->setMesh(m_device, m_Vela.meshes);
+		// Init Actor Textures
+		AModel->setTextures(m_Textures);
+
+		std::string msg = AModel->getName() + "Actor accessed successfully.";
+		MESSAGE("Actor", "Actor", msg.c_str());
+	}
+	else {
+		MESSAGE("Actor", "Actor", "Actor resource not found")
+	}
 
 	return S_OK;
 }
@@ -212,7 +142,7 @@ BaseApp::update() {
 	m_UI.update();
 
 	m_UI.GUITab("GUI");
-	m_UI.transformWindow(*this);
+	m_UI.transformWindow(*AModel->getComponent<Transform>());
 
 	// Actualizar tiempo y rotaci�n
 	static float t = 0.0f;
@@ -230,43 +160,18 @@ BaseApp::update() {
 
 	inputActionMap(t);
 
-	rotation.y = t;
-
-	// Actualizar la rotación del objeto y el color
-	XMMATRIX scaleMatrix = XMMatrixScaling(scale.x, scale.y, scale.z);
-	XMMATRIX rotationMatrix = XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z);
-	XMMATRIX traslationMatrix = XMMatrixTranslation(position.x, position.y, position.z);
-
-	//Componer la matriz final en el orden: scale -> rotation -> traslation
-	m_World = scaleMatrix * rotationMatrix * traslationMatrix;
-
-	// Update variables that change once per frame
-	cb.mWorld = XMMatrixTranspose(m_World);
-
-	// Actualizar la rotaci�n del objeto y el color
-	m_vMeshColor = XMFLOAT4(
-		// Modify the color
-		m_vMeshColor.x = (sinf(t * 1.0f) + 1.0f) * 0.5f,
-		m_vMeshColor.y = (cosf(t * 3.0f) + 1.0f) * 0.5f,
-		m_vMeshColor.z = (sinf(t * 5.0f) + 1.0f) * 0.5f,
-		1.0f
-	);
-
-	// Actualizar el buffer constante del frame
-	cb.vMeshColor = m_vMeshColor;
-	m_changesEveryFrame.update(m_deviceContext, 0, nullptr, &cb, 0, 0);
-
 	// Initialize the projection matrix
 	float FOV = XMConvertToRadians(90.0f);
-
-	// Actualizar la matriz de proyecci�n
-	m_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, m_window.m_width / (float)m_window.m_height, 0.01f, 100.0f);
+	m_Projection = XMMatrixPerspectiveFovLH(FOV, m_window.m_width / (float)m_window.m_height, 0.01f, 10000.0f);
 
 	upadteCamera();
 
 	// Actualizar la proyecci�n en el buffer constante
 	cbChangesOnResize.mProjection = XMMatrixTranspose(m_Projection);
 	m_changeOnResize.update(m_deviceContext, 0, nullptr, &cbChangesOnResize, 0, 0);
+
+	// Actualizar info logica del mesh
+	AModel->update(0, m_deviceContext);
 }
 
 // Renderiza el contenido de la aplicación en la pantalla.
@@ -275,33 +180,24 @@ BaseApp::render() {
 	// Limpiar los buffers
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 
-	// Establecer el Render Target View
-	m_renderTargetView.render(m_deviceContext, m_depthStencilView, 1, ClearColor);
-
 	// Establecer el Viewport
 	m_viewport.render(m_deviceContext);
+
+	// Establecer el Render Target View
+	m_renderTargetView.render(m_deviceContext, m_depthStencilView, 1, ClearColor);
 
 	// Establecer el Depth Stencil View
 	m_depthStencilView.render(m_deviceContext);
 
 	// Configurar los buffers y shaders para el pipeline
 	m_shaderProgram.render(m_deviceContext);
-	m_vertexBuffer.render(m_deviceContext, 0, 1);
-	m_indexBuffer.render(m_deviceContext, 0, 1, false, DXGI_FORMAT_R32_UINT);
-	m_deviceContext.IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// Render the models
+	AModel->render(m_deviceContext);
 
 	// Renderizar buffers constantes en el Vertex Shader
 	m_neverChanges.render(m_deviceContext, 0, 1);
 	m_changeOnResize.render(m_deviceContext, 1, 1);
-	m_changesEveryFrame.render(m_deviceContext, 2, 1);
-
-	// Renderizar buffers constantes en el Pixel Shader (si aplica)
-	m_changesEveryFrame.render(m_deviceContext, 2, 1, true);
-	m_textureRV.render(m_deviceContext, 0, 1);
-	m_deviceContext.PSSetSamplers(0, 1, &g_pSamplerLinear);
-
-	// Dibujar
-	m_deviceContext.DrawIndexed(36, 0, 0);
 
 	// Render the UI
 	m_UI.render();
@@ -315,13 +211,12 @@ void
 BaseApp::destroy() {
 	if (m_deviceContext.m_deviceContext) m_deviceContext.m_deviceContext->ClearState();
 
-	m_samplerState.destroy();
-	m_textureRV.destroy();
+	AModel->destroy();
+
 	m_changeOnResize.destroy();
-	m_changesEveryFrame.destroy();
+	m_changeEveryFrame.destroy();
 	m_neverChanges.destroy();
-	m_indexBuffer.destroy();
-	m_vertexBuffer.destroy();
+
 	m_shaderProgram.destroy();
 	m_depthStencil.destroy();
 	m_depthStencilView.destroy();
@@ -352,7 +247,6 @@ BaseApp::resizeWindow(HWND hWnd, LPARAM lParam) {
 				m_window.m_height,
 				DXGI_FORMAT_R8G8B8A8_UNORM,
 				0);
-
 		if (FAILED(hr)) {
 			ERROR("ResizeWindow", "SwapChain", "Failed to resize buffers");
 			return hr;
@@ -412,7 +306,7 @@ BaseApp::inputActionMap(float deltaTime) {
 
 	float sensibility = 0.001f; // Sensibilidad del movimiento
 	float Cam_Sensibility = 0.001f; // Sensibilidad de la cámara
-
+/*
 	if (key[87]) { // W
 		position.y += sensibility * deltaTime;
 	}
@@ -433,6 +327,7 @@ BaseApp::inputActionMap(float deltaTime) {
 	if (key[69]) { // E
 		position.z += sensibility * deltaTime;
 	}
+*/
 
 	// Cargar posición y direcciones de la cámara
 	XMVECTOR pos = XMLoadFloat3(&m_camera.position);
