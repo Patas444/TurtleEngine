@@ -194,6 +194,9 @@
     <ClInclude Include="Include\Utilities\EngineMath.h">
       <Filter>Include\Utilities\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Include\OBJ_Loader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TurtleEngine.cpp" />

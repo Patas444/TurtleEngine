@@ -8,7 +8,7 @@ class
 MeshComponent : public Component {
 public:
     // Constructor por defecto, inicializa el número de vértices y de índices en 0.
-    MeshComponent() : m_numVertex(0), m_numIndex(0), Component(ComponentType::MESH) {}
+	MeshComponent() : m_numVertex(0), m_numIndex(0), Component(ComponentType::MESH) {}
 
     // Destructor por defecto.
     virtual

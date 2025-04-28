@@ -1,17 +1,10 @@
 ﻿#include "BaseApp.h"
 
-XMFLOAT4                            m_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
-
-
-
-
 /**
  * Inicializa la aplicación.
  * Creación de un dispositivo Direct3D y una cadena de intercambio.
  * @return HRESULT con el estado de la inicialización.
  */
-
-
 
 HRESULT
 BaseApp::init() {
@@ -98,19 +91,22 @@ BaseApp::init() {
 
 	m_UI.init(m_window.m_hWnd, m_device.m_device, m_deviceContext.m_deviceContext);
 
-	// Set Vela Actor
+	// Set Actor: Mario and Luigi
+	//m_loader.LoadFBXModel("Models/GIRL_fbx.fbx");
+
 	// Load the Texture
+	Texture BaseColor;
+	BaseColor.init(m_device, "Texture/RMSH/RedMushroom_BaseColor.png", ExtensionType::PNG);
 
-	Texture Color;
-	Color.init(m_device, "Texture/Mario64Texture.png", ExtensionType::PNG);
-	
-	m_default.init(m_device, "Texture/Default.png", ExtensionType::PNG);
+	m_default.init(m_device, "Texture/RMSH/Default.png", ExtensionType::PNG);
 
-	m_Textures.push_back(Color);
+	m_Textures.push_back(BaseColor);
 
 	m_Textures.push_back(m_default);
+	// Set Actor: Mario and Luigi
+	m_loader.LoadFBXModel("Models/Mushroom.fbx");
 
-	m_Vela.LoadFBXModel("Models/MarioandLuigi.fbx");
+	
 	AModel = EngineUtilities::MakeShared<Actor>(m_device);
 	if (!AModel.isNull()) {
 		// Init Transform
@@ -118,9 +114,12 @@ BaseApp::init() {
 			EngineUtilities::Vector3(XM_PI / -2.0f, 0.0f, XM_PI / 2.0f),
 			EngineUtilities::Vector3(1.0f, 1.0f, 1.0f));
 		// Init Actor Mesh
-		AModel->setMesh(m_device, m_Vela.meshes);
+		AModel->setMesh(m_device, m_loader.meshes);
 		// Init Actor Textures
 		AModel->setTextures(m_Textures);
+
+		m_actors.push_back(AModel);
+
 
 		std::string msg = AModel->getName() + "Actor accessed successfully.";
 		MESSAGE("Actor", "Actor", msg.c_str());
@@ -132,10 +131,7 @@ BaseApp::init() {
 	return S_OK;
 }
 
-/**
- * Actualiza el estado de la aplicación en cada iteración del bucle principal.
- * 
- */
+// Actualiza el estado de la aplicación en cada iteración del bucle principal.
 void 
 BaseApp::update() {
 	// Updates the UI
@@ -216,7 +212,6 @@ BaseApp::destroy() {
 	m_changeOnResize.destroy();
 	m_changeEveryFrame.destroy();
 	m_neverChanges.destroy();
-
 	m_shaderProgram.destroy();
 	m_depthStencil.destroy();
 	m_depthStencilView.destroy();
@@ -301,7 +296,7 @@ BaseApp::resizeWindow(HWND hWnd, LPARAM lParam) {
 	}
 }
 
-HRESULT
+void
 BaseApp::inputActionMap(float deltaTime) {
 
 	float sensibility = 0.001f; // Sensibilidad del movimiento
@@ -341,8 +336,6 @@ BaseApp::inputActionMap(float deltaTime) {
 
 	// Guardar la nueva posición de la cámara
 	XMStoreFloat3(&m_camera.position, pos);
-
-	return S_OK; 
 }
 
 void

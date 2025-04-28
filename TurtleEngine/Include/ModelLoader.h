@@ -1,36 +1,42 @@
 ﻿#pragma once
-#include "Prerequisites.h"
-#include "MeshComponent.h"
-#include "fbxsdk.h"
+#include  "Prerequisites.h"
+#include  "MeshComponent.h"
+#include  "fbxsdk.h"
 
-class 
+class
 ModelLoader {
 public:
-	ModelLoader() = default;
-	~ModelLoader() = default;
 
-	bool
-	InitializeFBXManager();
+  ModelLoader() = default;
+  ~ModelLoader() = default;
 
-	bool 
-	LoadFBXModel(const std::string & filePath);
+  bool
+  InitializeFBXManager();
 
-	void 
+  bool
+  LoadFBXModel(const std::string& filePath);
+
+  void
   ProcessFBXNode(FbxNode* node);
 
-  void 
+  void
   ProcessFBXMesh(FbxNode* node);
 
-  void 
+  void
   ProcessFBXMaterials(FbxSurfaceMaterial* material);
 
-  std::vector<std::string> 
+  std::vector<std::string>
   GetTextureFileNames() const { return textureFileNames; }
 
+  bool
+  LoadOBJ_model(const std::string& filePath);
+
+
 private:
-	FbxManager* lSdkManager;
-	FbxScene* lScene;
-	std::vector<std::string> textureFileNames;
+  FbxManager* lSdkManager;
+  FbxScene* lScene;
+  std::vector<std::string> textureFileNames;
 public:
-	std::vector<MeshComponent> meshes;
+  std::vector<MeshComponent> meshes;
+  std::string modelName;
 };

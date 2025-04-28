@@ -42,7 +42,8 @@ public:
     HRESULT resizeWindow(HWND hWnd, LPARAM lParam);
 
     // Mapea las acciones de entrada (del teclado en este caso) en función del tiempo.
-    HRESULT inputActionMap(float deltaTime);
+    void
+    inputActionMap(float deltaTime);
 
     // Actualiza la cámara.
     void upadteCamera();
@@ -77,26 +78,25 @@ public:
     Buffer													m_changeEveryFrame;
     GUI												        m_UI;
 
-    // Render Target IMGUI
-    Texture													m_imguiTexture;
-    RenderTargetView										m_imguiRenderTargetView;
-    Texture													m_imguiShaderResourceView;
-
     XMMATRIX                                                m_View;
     XMMATRIX                                                m_Projection;
-    XMFLOAT4                                                m_vMeshColor;
 
     Camera                                                  m_camera;
-
-    // Vela Actor
-    ModelLoader												m_Vela;
+    
+    // Actor
+    ModelLoader												m_loader;
     EngineUtilities::TSharedPointer<Actor>                  AModel;
     std::vector<Texture>                                    m_Textures;
     Texture m_default;
 
+    /*ModelLoader												m_loader2;
+    EngineUtilities::TSharedPointer<Actor>                  AModel2;
+    std::vector<Texture>                                    m_Textures2;*/
+
     CBNeverChanges cbNeverChanges;
     CBChangeOnResize cbChangesOnResize;
 
+    std::vector<EngineUtilities::TSharedPointer<Actor>> m_actors;
     // Variables de control de entradas.
     bool key[256] = { false };   // Estado de las teclas.
     bool mouseLeftDown = false;  // Estado del clic izquierdo del ratón.

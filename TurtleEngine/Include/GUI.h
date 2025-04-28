@@ -1,6 +1,7 @@
 #pragma once
 #include "Prerequisites.h"
 #include "ECS/Transform.h"
+#include "ECS/Actor.h"
 
 class Window;
 class Device;
@@ -43,4 +44,5 @@ public:
               float columnWidth = 100.0f);
 
 private:
+    EngineUtilities::TSharedPointer<Actor> m_actors;
 };
