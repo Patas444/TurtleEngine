@@ -5,6 +5,8 @@
  * Creación de un dispositivo Direct3D y una cadena de intercambio.
  * @return HRESULT con el estado de la inicialización.
  */
+XMFLOAT4                            m_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f); 
+
 
 HRESULT
 BaseApp::init() {
@@ -29,7 +31,7 @@ BaseApp::init() {
 		m_window.m_width,
 		m_window.m_height,
 		DXGI_FORMAT_D24_UNORM_S8_UINT,
-		D3D11_BIND_DEPTH_STENCIL, 4, 16);
+		D3D11_BIND_DEPTH_STENCIL, 4, 0);
 	if (FAILED(hr)) {
 		return hr;
 	}
@@ -91,25 +93,34 @@ BaseApp::init() {
 
 	m_UI.init(m_window.m_hWnd, m_device.m_device, m_deviceContext.m_deviceContext);
 
-	// Set Actor: Mario and Luigi
-	//m_loader.LoadFBXModel("Models/GIRL_fbx.fbx");
-
+	// Set Actor: Mario Hat - Ejemplo de Modelo no Funcinal
 	// Load the Texture
-	Texture BaseColor;
-	BaseColor.init(m_device, "Texture/RMSH/RedMushroom_BaseColor.png", ExtensionType::PNG);
-
-	m_default.init(m_device, "Texture/RMSH/Default.png", ExtensionType::PNG);
-
-	m_Textures.push_back(BaseColor);
-
-	m_Textures.push_back(m_default);
-	// Set Actor: Mario and Luigi
-	m_loader.LoadFBXModel("Models/Mushroom.fbx");
-
+	m_loader.LoadFBXModel("Models/Hat.fbx");
+	Texture Color;
+	Color.init(m_device, "Texture/MHat/Color.png", ExtensionType::PNG);
+	m_Textures.push_back(Color);
+	///////////////////////////////////////////////////////////////////
 	
+	/* //Set Actor: Mario&Luigi - Ejemplo de Modelo no Funcinal
+	// Load the Texture
+	m_loader.LoadFBXModel("Models/MarioandLuigi.fbx");
+	Texture Color;
+	Color.init(m_device, "Texture/M&L/Mario64Texture.png", ExtensionType::PNG);
+	m_Textures.push_back(Color);
+	///////////////////////////////////////////////////////////////////*/
+
+	/* //Set Actor: Mario Kart - .OBJ
+	m_loader.LoadOBJ_model("Models/m.obj");
+	m_Textures.clear();
+	//for (size_t i = 0; i < m_loader.meshes.size(); ++i) {
+		Texture Hat;
+		Hat.init(m_device, "Models/hat_mario_color.PNG", ExtensionType::PNG);
+		m_Textures.push_back(Hat);
+	///////////////////////////////////////////////////////////////////*/
+
 	AModel = EngineUtilities::MakeShared<Actor>(m_device);
 	if (!AModel.isNull()) {
-		// Init Transform
+		// Init Transform - Fbx
 		AModel->getComponent<Transform>()->setTransform(EngineUtilities::Vector3(2.0f, 1.0f, 1.0f),
 			EngineUtilities::Vector3(XM_PI / -2.0f, 0.0f, XM_PI / 2.0f),
 			EngineUtilities::Vector3(1.0f, 1.0f, 1.0f));
@@ -117,19 +128,27 @@ BaseApp::init() {
 		AModel->setMesh(m_device, m_loader.meshes);
 		// Init Actor Textures
 		AModel->setTextures(m_Textures);
-
 		m_actors.push_back(AModel);
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+		// Init Transform - Obj
+	/*	if (!AModel.isNull()) {
+			AModel->getComponent<Transform>()->setTransform(m_loaderPosition, m_loadeRotation, m_loadeScale);
+			AModel->setMesh(m_device, m_loader.meshes);
+			AModel->setTextures(m_Textures);
+			m_actors.push_back(AModel);
+	*/
 		std::string msg = AModel->getName() + "Actor accessed successfully.";
 		MESSAGE("Actor", "Actor", msg.c_str());
 	}
 	else {
 		MESSAGE("Actor", "Actor", "Actor resource not found")
 	}
-
 	return S_OK;
 }
+
+
 
 // Actualiza el estado de la aplicación en cada iteración del bucle principal.
 void 
@@ -139,6 +158,7 @@ BaseApp::update() {
 
 	m_UI.GUITab("GUI");
 	m_UI.transformWindow(*AModel->getComponent<Transform>());
+	
 
 	// Actualizar tiempo y rotaci�n
 	static float t = 0.0f;

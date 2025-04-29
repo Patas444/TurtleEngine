@@ -34,20 +34,20 @@ public:
     * @param deviceContext Reference to the device context used for update.
     */
     void
-        update(float deltaTime, DeviceContext& deviceContext) override;
+    update(float deltaTime, DeviceContext& deviceContext) override;
 
     /*
     * @brief Renders the actor
     * @param deviceContext Reference to the device context used for rendering.
     */
     void
-        render(DeviceContext& deviceContext) override;
+    render(DeviceContext& deviceContext) override;
 
     /**
      * @brief Destroys the actor and releases associated resources.
      */
     void
-        destroy();
+    destroy();
 
     /**
      * @brief Sets the mesh of the actor.
@@ -55,7 +55,7 @@ public:
      * @param meshes Vector of Mesh Components objects representing meshes.
      */
     void
-        setMesh(Device& device, std::vector<MeshComponent> meshes);
+    setMesh(Device& device, std::vector<MeshComponent> meshes);
 
     /**
     * @brief Sets the textures of the actor.

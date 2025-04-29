@@ -118,3 +118,11 @@ struct Camera {
     pitch = 0.0f;
   }
 };
+
+struct LoadDataOBJ {
+    std::string name; ///< Nombre del objeto.
+    std::vector<SimpleVertex> vertex; ///< Vértices del objeto.
+    std::vector<unsigned int> index; ///< Índices de los vértices.
+    int numVertex = 0; ///< Número de vértices.
+    int numIndex = 0; ///< Número de índices.
+};

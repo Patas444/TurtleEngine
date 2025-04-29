@@ -89,12 +89,12 @@ public:
     std::vector<Texture>                                    m_Textures;
     Texture m_default;
 
-    /*ModelLoader												m_loader2;
-    EngineUtilities::TSharedPointer<Actor>                  AModel2;
-    std::vector<Texture>                                    m_Textures2;*/
-
     CBNeverChanges cbNeverChanges;
     CBChangeOnResize cbChangesOnResize;
+
+    EngineUtilities::Vector3 m_loaderPosition = EngineUtilities::Vector3(-4.287f, -1.089f, 2.0f);
+    EngineUtilities::Vector3 m_loadeRotation = EngineUtilities::Vector3(-0.036, 1.678f, -0.035f);
+    EngineUtilities::Vector3 m_loadeScale = EngineUtilities::Vector3(1.989f, 1.941f, 1.941f);
 
     std::vector<EngineUtilities::TSharedPointer<Actor>> m_actors;
     // Variables de control de entradas.
