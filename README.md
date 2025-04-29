@@ -19,17 +19,18 @@ que también puede exportarlo.
 
 Para comenzar en esta actualización se eliminó el cubo antes utilizado en viejas versiones por nuevos y bonitos modelos 
 3d(en formato fbx y obj. Además que estos se pueden seguir manipulando con la ventana de transform. Del mismo modo este 
-programa te permite exportar los modelos 3D que tu desees permitiendo manipularlo en el programa. Para usarlo solo debe 
-descargar o ingresar sus modelos en las carpetas de Modelo y textura: 
-![Captura de pantalla 2025-04-28 225529](https://github.com/user-attachments/assets/4a3e4e4d-50e9-4100-8906-9253c6b85a8d)
-![Captura de pantalla 2025-04-28 225610](https://github.com/user-attachments/assets/c691a17e-f684-4c42-bc42-46abd45ac124)
-
+programa te permite exportar los modelos 3D que tu desees permitiendo manipularlo en el programa. 
 
 Sigue los pasos y las fotos:
 
 Para usarlo solo debe descargar o ingresar sus modelos en las carpetas de Modelo y textura. Estos están ubicados 
 en bin/x64/RESPECTIVA CARPETA (Se recomienda que uses solo fbx y obj): 
 
+![Captura de pantalla 2025-04-28 225529](https://github.com/user-attachments/assets/4a3e4e4d-50e9-4100-8906-9253c6b85a8d)
+![Captura de pantalla 2025-04-28 225610](https://github.com/user-attachments/assets/c691a17e-f684-4c42-bc42-46abd45ac124)
+
 Para iniciar el código seleccione “TurtleEngine_2010.sln” para abrir el código. Una vez abierto vaya y seleccione 
 el “BaseApp.cpp” que se ubica en su esquina derecha el la carpeta Source. Al Abrir el código deberá buscar la 
 siguiente parte:
+
+![image](https://github.com/user-attachments/assets/f8ca4a96-adb4-4ef7-8cc1-ca927583f894)
