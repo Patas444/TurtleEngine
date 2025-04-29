@@ -11,13 +11,13 @@ RenderTargetView::init(Device& device, Texture& backBuffer, DXGI_FORMAT format) 
   // Validar que el dispositivo no sea nulo
   if (device.m_device == nullptr) {
     ERROR("RenderTargetView", "init", "Device is nullptr in RenderTargetView init method");
-    return E_POINTER;  // Retorna un código de error si el dispositivo es nulo
+    ///return E_POINTER;  // Retorna un código de error si el dispositivo es nulo
   }
 
   // Validar que el back buffer tenga una textura válida
   if (!backBuffer.m_texture) {
     ERROR("RenderTargetView", "init", "backBuffer texture is nullptr in RenderTargetView init method");
-    return E_POINTER;  // Retorna un código de error si la textura del back buffer es nula
+    ///return E_POINTER;  // Retorna un código de error si la textura del back buffer es nula
   }
 
   D3D11_RENDER_TARGET_VIEW_DESC desc;
@@ -49,13 +49,13 @@ RenderTargetView::render(DeviceContext& deviceContext,
   // Validar que el DeviceContext no sea nulo
   if (!deviceContext.m_deviceContext) {
     ERROR("RenderTargetView", "render", "DeviceContext is nullptr in RenderTargetView render method");
-    return;  // Retorna si el contexto del dispositivo no está inicializado correctamente
+    ///return;  // Retorna si el contexto del dispositivo no está inicializado correctamente
   }
 
   // Validar que el DepthStencilView no sea nulo
   if (!depthStencilView.m_depthStencilView) {
     ERROR("RenderTargetView", "render", "DepthStencilView is nullptr in RenderTargetView render method");
-    return;  // Retorna si el DepthStencilView no está correctamente inicializado
+    ///return;  // Retorna si el DepthStencilView no está correctamente inicializado
   }
 
   // Limpiar el render target view con el color proporcionado

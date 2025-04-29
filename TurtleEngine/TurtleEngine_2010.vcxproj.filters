@@ -27,6 +27,30 @@
     <Filter Include="Imgui\Includes">
       <UniqueIdentifier>{042bff32-11d1-4997-8ece-7c49448b0664}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Utilities">
+      <UniqueIdentifier>{3b5528af-1f8e-4b0e-9c29-e5e630e02e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utilities\Matrix">
+      <UniqueIdentifier>{51493b98-f4c4-4316-9b77-aea5485d6064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utilities\Memory">
+      <UniqueIdentifier>{81690bca-b3fb-4707-a047-f26329fc8bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utilities\Structures">
+      <UniqueIdentifier>{7d958b94-f122-48af-8aad-9c8fb3178919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utilities\Vectors">
+      <UniqueIdentifier>{45a31eac-97e7-416b-8f7a-0556b0410375}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ECS">
+      <UniqueIdentifier>{1010f81a-89b5-4322-8271-5e927d41bbbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ECS">
+      <UniqueIdentifier>{6fac6601-6b2a-494d-b550-31b8600e12e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Utilities\Utilities">
+      <UniqueIdentifier>{296dfc9d-5366-4f96-bb62-f872d7404986}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\BaseApp.h">
@@ -107,6 +131,72 @@
     <ClInclude Include="Imgui\imgui-docking\imstb_truetype.h">
       <Filter>Imgui\Includes</Filter>
     </ClInclude>
+    <ClInclude Include="Include\ModelLoader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Vectors\Quaternion.h">
+      <Filter>Include\Utilities\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Vectors\Vector2.h">
+      <Filter>Include\Utilities\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Vectors\Vector3.h">
+      <Filter>Include\Utilities\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Vectors\Vector4.h">
+      <Filter>Include\Utilities\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Structures\TArray.h">
+      <Filter>Include\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Structures\TMap.h">
+      <Filter>Include\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Structures\TPair.h">
+      <Filter>Include\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Structures\TSet.h">
+      <Filter>Include\Utilities\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Memory\TSharedPointer.h">
+      <Filter>Include\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Memory\TStaticPtr.h">
+      <Filter>Include\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Memory\TUniquePtr.h">
+      <Filter>Include\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Memory\TWeakPointer.h">
+      <Filter>Include\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Matrix\Matrix2x2.h">
+      <Filter>Include\Utilities\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Matrix\Matrix3x3.h">
+      <Filter>Include\Utilities\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\Matrix\Matrix4x4.h">
+      <Filter>Include\Utilities\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECS\Entity.h">
+      <Filter>Include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECS\Actor.h">
+      <Filter>Include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECS\Component.h">
+      <Filter>Include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECS\Transform.h">
+      <Filter>Include\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utilities\EngineMath.h">
+      <Filter>Include\Utilities\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\OBJ_Loader.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TurtleEngine.cpp" />
@@ -173,6 +263,15 @@
     <ClCompile Include="Imgui\imgui-docking\backends\imgui_impl_dx11.cpp">
       <Filter>Imgui\src</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ModelLoader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ECS\Transform.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor.cpp">
+      <Filter>Source\ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -186,8 +285,5 @@
     <Text Include="TurtleEngine.fx">
       <Filter>Shaders</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

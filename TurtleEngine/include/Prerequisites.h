@@ -24,7 +24,11 @@
 #include <imgui_internal.h>
 #include "imgui_impl_win32.h"
 
-// MACROS para simplificar tareas comunes
+// Third Parties
+#include "Utilities\Memory\TSharedPointer.h"
+#include "Utilities\Memory\TWeakPointer.h"
+#include "Utilities\Memory\TStaticPtr.h"
+#include "Utilities\Memory\TUniquePtr.h"
 
 // Macro para liberar un recurso DirectX de forma segura
 #define SAFE_RELEASE(x) if(x != nullptr) x->Release(); x = nullptr;
@@ -83,10 +87,19 @@ enum ShaderType {
   PIXEL_SHADER = 1   // Shader de píxeles
 };
 
+enum
+ComponentType {
+  NONE = 0,     ///< Tipo de componente no especificado.
+  TRANSFORM = 1,///< Componente de transformación.
+  MESH = 2,     ///< Componente de malla.
+  MATERIAL = 3  ///< Componente de material.
+};
+
 // Estructura para representar una cámara
 struct Camera {
   XMFLOAT3 position; // Posición de la cámara
   XMFLOAT3 target;   // Objetivo o punto hacia donde apunta la cámara
+
   XMFLOAT3 up;       // Vector hacia arriba de la cámara
   XMFLOAT3 forward;  // Dirección hacia adelante de la cámara
   XMFLOAT3 right;    // Dirección hacia la derecha de la cámara
@@ -104,4 +117,12 @@ struct Camera {
     yaw = 0.0f;
     pitch = 0.0f;
   }
+};
+
+struct LoadDataOBJ {
+    std::string name; ///< Nombre del objeto.
+    std::vector<SimpleVertex> vertex; ///< Vértices del objeto.
+    std::vector<unsigned int> index; ///< Índices de los vértices.
+    int numVertex = 0; ///< Número de vértices.
+    int numIndex = 0; ///< Número de índices.
 };

@@ -57,10 +57,15 @@ Texture::init(Device device,
     textureDesc.Usage = D3D11_USAGE_DEFAULT;  // Uso por defecto
     textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE; // La textura se usará como recurso de shader
 
+
+
+    ///////////
     // Inicializar los datos de la textura
     D3D11_SUBRESOURCE_DATA initData = {};
     initData.pSysMem = data;
     initData.SysMemPitch = width * 4;  // Un byte por canal
+
+    ////////
 
     // Crear la textura
     hr = device.CreateTexture2D(&textureDesc, &initData, &m_texture);
@@ -95,7 +100,6 @@ Texture::init(Device device,
 
   return hr;  // Retornamos el resultado de la operación
 }
-
 
 HRESULT
 Texture::init(Device device,
@@ -165,6 +169,10 @@ Texture::render(DeviceContext& deviceContext,
 void 
 Texture::destroy() {
   // Liberar los recursos de la textura
-  SAFE_RELEASE(m_texture);
-  SAFE_RELEASE(m_textureFromImg);
+    if (m_texture != nullptr) {
+        SAFE_RELEASE(m_texture);
+    }
+    else if (m_textureFromImg != nullptr) {
+        SAFE_RELEASE(m_textureFromImg);
+    }
 }

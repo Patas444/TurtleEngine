@@ -103,13 +103,24 @@ GUI::GUITab(const std::string& tabName) {
 }
 
 void 
-GUI::transformWindow(BaseApp& g_bApp) {
+GUI::transformWindow(Transform& transform) {
 
   ImGui::Begin("Transform"); 
 
-  ImGui::DragFloat3("Position", &g_bApp.position.x, 0.1f);
-  ImGui::DragFloat3("Rotation", &g_bApp.rotation.x, 0.1f);
-  ImGui::DragFloat3("Scale", &g_bApp.scale.x, 0.1f);
+  EngineUtilities::Vector3 position = transform.getPosition();
+  EngineUtilities::Vector3 rotation = transform.getRotation();
+  EngineUtilities::Vector3 scale = transform.getScale();
+
+  // Se editan los valores en ImGui
+  if (ImGui::DragFloat3("Position", &position.x, 0.1f)) {
+      transform.setPosition(position);
+  }
+  if (ImGui::DragFloat3("Rotation", &rotation.x, 0.1f)) {
+      transform.setRotation(rotation);
+  }
+  if (ImGui::DragFloat3("Scale", &scale.x, 0.1f)) {
+      transform.setScale(scale);
+  }
 
   ImGui::End();
 }

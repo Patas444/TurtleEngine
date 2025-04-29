@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Prerequisites.h"
 #include "Window.h"
 #include "Device.h"
@@ -13,9 +13,11 @@
 #include "Buffer.h"
 #include "SamplerState.h"
 #include "GUI.h"
+#include "ModelLoader.h"
+#include "ECS\Actor.h"
 
 
-// Clase base para la aplicación.
+// Clase base para la aplicaciÃ³n.
 class BaseApp {
 public:
     // Constructor por defecto.
@@ -24,114 +26,81 @@ public:
     // Destructor por defecto.
     ~BaseApp() = default;
 
-    // Inicializa la aplicación.
+    // Inicializa la aplicaciÃ³n.
     HRESULT init();
     
-    // Actualiza el estado de la aplicación.
+    // Actualiza el estado de la aplicaciÃ³n.
     void update();
     
-    // Renderiza los elementos de la aplicación.
+    // Renderiza los elementos de la aplicaciÃ³n.
     void render();
     
-    // Libera los recursos de la aplicación.
+    // Libera los recursos de la aplicaciÃ³n.
     void destroy();
 
-    // Método para redimensionar la ventana.
+    // MÃ©todo para redimensionar la ventana.
     HRESULT resizeWindow(HWND hWnd, LPARAM lParam);
 
-    // Mapea las acciones de entrada (del teclado en este caso) en función del tiempo.
-    HRESULT inputActionMap(float deltaTime);
+    // Mapea las acciones de entrada (del teclado en este caso) en funciÃ³n del tiempo.
+    void
+    inputActionMap(float deltaTime);
 
-    // Actualiza la cámara.
+    // Actualiza la cÃ¡mara.
     void upadteCamera();
 
-    // Rota la cámara en función de la entrada del ratón.
+    // Rota la cÃ¡mara en funciÃ³n de la entrada del ratÃ³n.
     void rotateCamera(int mouseX, int mouseY);
 
     /*
-    * Método principal de ejecución de la aplicación.
-    * @return Código de salida del programa.
+    * MÃ©todo principal de ejecuciÃ³n de la aplicaciÃ³n.
+    * @return CÃ³digo de salida del programa.
     */
-    int run(HINSTANCE hInstance,
-        HINSTANCE hPrevInstance,
-        LPWSTR lpCmdLine,
-        int nCmdShow,
-        WNDPROC wndproc);
-
-    // Función de ventana (WndProc) para gestionar los mensajes de la ventana.
-    LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+    int 
+    run(HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPWSTR lpCmdLine,
+    int nCmdShow,
+    WNDPROC wndproc);
 
 public:
-    //--------------------------------------------------------------------------------------
-    // Variables globales
-    //--------------------------------------------------------------------------------------
+    Window													m_window;
+    Device													m_device;
+    DeviceContext										    m_deviceContext;
+    SwapChain												m_swapchain;
+    Texture													m_backBuffer;
+    Texture													m_depthStencil;
+    RenderTargetView										m_renderTargetView;
+    DepthStencilView										m_depthStencilView;
+    Viewport												m_viewport;
+    ShaderProgram											m_shaderProgram;
+    Buffer													m_neverChanges;
+    Buffer													m_changeOnResize;
+    Buffer													m_changeEveryFrame;
+    GUI												        m_UI;
 
-    // Objeto para manejar la ventana de la aplicación.
-    Window                                  m_window;
+    XMMATRIX                                                m_View;
+    XMMATRIX                                                m_Projection;
 
-    // Objeto para manejar el dispositivo gráfico.
-    Device                                  m_device;
-
-    // Contexto del dispositivo, utilizado para operaciones de renderizado.
-    DeviceContext                           m_deviceContext;
-
-    // Objeto para manejar el swapchain (intercambio de buffers de pantalla).
-    SwapChain                               m_swapchain;
-
-    // Texturas utilizadas en la aplicación (fondo y profundidad).
-    Texture                                 m_backBuffer;
-    Texture                                 m_depthStencil;
-
-    // Vistas de los buffers (RenderTarget y DepthStencil).
-    RenderTargetView                        m_renderTargetView;
-    DepthStencilView                        m_depthStencilView;
-
-    // Vista de la ventana y la resolución de la pantalla.
-    Viewport                                m_viewport;
-
-    // Programa de shaders utilizado en el renderizado.
-    ShaderProgram                           m_shaderProgram;
-
-    // Recursos para shaders y buffers.
-    Buffer                                  m_vertexBuffer;
-    Buffer                                  m_indexBuffer;
-    Buffer                                  m_neverChanges;
-    Buffer                                  m_changeOnResize;
-    Buffer                                  m_changesEveryFrame;
+    Camera                                                  m_camera;
     
-    // Textura y estado del sampler (muestras de texturas).
-    Texture                                 m_textureRV;
-    SamplerState                            m_samplerState;
+    // Actor
+    ModelLoader												m_loader;
+    EngineUtilities::TSharedPointer<Actor>                  AModel;
+    std::vector<Texture>                                    m_Textures;
+    Texture m_default;
 
-    // Interfaz de usuario (UI).
-    GUI                           m_UI;
+    CBNeverChanges cbNeverChanges;
+    CBChangeOnResize cbChangesOnResize;
 
-    // Matrices para transformaciones de la escena.
-    ID3D11SamplerState*                     g_pSamplerLinear = NULL; // Sampler utilizado para la textura.
-    XMMATRIX                                m_World;        // Matriz de transformación del mundo.
-    XMMATRIX                                m_View;         // Matriz de visión/cámara.
-    XMMATRIX                                m_Projection;   // Matriz de proyección.
+    EngineUtilities::Vector3 m_loaderPosition = EngineUtilities::Vector3(-4.287f, -1.089f, 2.0f);
+    EngineUtilities::Vector3 m_loadeRotation = EngineUtilities::Vector3(-0.036, 1.678f, -0.035f);
+    EngineUtilities::Vector3 m_loadeScale = EngineUtilities::Vector3(1.989f, 1.941f, 1.941f);
 
-    // Posición, rotación y escala del objeto.
-    XMFLOAT3                                position;
-    XMFLOAT3                                rotation;
-    XMFLOAT3                                scale;
-
-    // Componente de malla (geometría).
-    MeshComponent                           m_meshComponent;
-
-    // Cámara de la escena.
-    Camera                                  m_camera;
-
-    // Buffers constantes para los shaders.
-    CBChangesEveryFrame                     cb;               // Cambios cada fotograma.
-    CBNeverChanges                          cbNeverChanges;        // Cambios que no cambian.
-    CBChangeOnResize                        cbChangesOnResize;   // Cambios en el redimensionamiento de la ventana.
-
+    std::vector<EngineUtilities::TSharedPointer<Actor>> m_actors;
     // Variables de control de entradas.
     bool key[256] = { false };   // Estado de las teclas.
-    bool mouseLeftDown = false;  // Estado del clic izquierdo del ratón.
-    int lastX;                   // Última posición en X del ratón.
-    int lastY;                   // Última posición en Y del ratón.
-    float camSpeed = 0.002f;     // Velocidad de la cámara.
+    bool mouseLeftDown = false;  // Estado del clic izquierdo del ratÃ³n.
+    int lastX=0;                   // Ãšltima posiciÃ³n en X del ratÃ³n.
+    int lastY=0;                   // Ãšltima posiciÃ³n en Y del ratÃ³n.
+    float camSpeed = 0.002f;     // Velocidad de la cÃ¡mara.
 };

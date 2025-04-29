@@ -32,7 +32,7 @@ Window::init(HINSTANCE hInstance, int nCmdShow, WNDPROC wndproc) {
   }
 
   // Crea la ventana
-  RECT rc = { 0, 0, 1200, 1010 };  // Tamaño inicial de la ventana
+  RECT rc = { 0, 0, 1200, 720 };  // Tamaño inicial de la ventana
   m_rect = rc;
 
   // Ajusta el tamaño de la ventana para que sea correcta según el estilo
