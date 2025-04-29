@@ -36,5 +36,19 @@ siguiente parte:
 ![image](https://github.com/user-attachments/assets/f8ca4a96-adb4-4ef7-8cc1-ca927583f894)
 ![image](https://github.com/user-attachments/assets/20db9c7e-8a40-4e96-80e1-a7f1f86db065)
 
+Estas líneas de código son las que te permitirán exportar tus modelos. 
+(Atención esta linea solo sirve con fbx en un momento explicamos en donde se abren los obj)
+Solo agrega el la ubicación de tanto del modelo y de las texturas respectivas como se muestran en las imágenes:
+
+![image](https://github.com/user-attachments/assets/235598b8-2d62-460e-8ef8-58e0e5d603a0)
+
+En este primer ejemplo podras ver como se ve estos modelos y como puedes interactuar con ellos:
+
+![image](https://github.com/user-attachments/assets/4a1b6c16-f420-4c49-9d01-04a9e0a82dd9)
+
+-Adevertencia no todos los fbx saldran bien muchas de ellos tendran texturas distorcinadas-
+
+![image](https://github.com/user-attachments/assets/6576ae14-315d-468f-be19-71e9554129b5)
+
 
 
