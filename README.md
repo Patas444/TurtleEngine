@@ -50,5 +50,13 @@ En este primer ejemplo podras ver como se ve estos modelos y como puedes interac
 
 ![image](https://github.com/user-attachments/assets/6576ae14-315d-468f-be19-71e9554129b5)
 
+Por último en las siguientes líneas comentadas están los que se encargan de cargar lo que serían los obj. 
+Solo debes comentar las líneas fbx para que no afecten el funcionamiento de este (otra nota es que los obj 
+suelen ser más tediosos por lo que puedes agregarlo en la misma carpeta del modelo para más facilidad. 
+Otra cosa es abrir el modelo y ver que sus texturas tengan el nombre correcto y el formato que debe ser 
+obligatoriamente png.)
 
+![Captura de pantalla 2025-04-28 232306](https://github.com/user-attachments/assets/b01a0e5b-309d-411a-8b07-4ee22feffcb4)
+
+ Y eso es todo disfrute del programa.
 
