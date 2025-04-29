@@ -34,3 +34,7 @@ el “BaseApp.cpp” que se ubica en su esquina derecha el la carpeta Source. Al
 siguiente parte:
 
 ![image](https://github.com/user-attachments/assets/f8ca4a96-adb4-4ef7-8cc1-ca927583f894)
+![image](https://github.com/user-attachments/assets/20db9c7e-8a40-4e96-80e1-a7f1f86db065)
+
+
+
