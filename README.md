@@ -13,3 +13,6 @@ cubo con el teclado al igual que pueden controlar la cámara con el mouse.
 
 De la misma forma se agregó un IMGUI proporcionado por el video tutorial de: “ROBERTO CHARRETON KAPLÚN”
 
+Para iniciar el código seleccione “TurtleEngine_2010.sln” para abrir el código. 
+
+Una vez abierto vaya y seleccione el “BaseApp.cpp” que se ubica en su esquina derecha el la carpeta Source. Al Abrir el código deberá buscar la siguiente parte:
